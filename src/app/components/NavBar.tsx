@@ -22,7 +22,6 @@ export default function NavBar() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-        {/* LOGO */}
         <Link href="/" className="flex items-center gap-2 group">
           <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center transition-transform duration-300 group-hover:scale-105 shadow-lg shadow-purple-500/30">
             <span className="text-white font-bold text-sm">N</span>
@@ -34,8 +33,6 @@ export default function NavBar() {
             Novi
           </span>
         </Link>
-
-        {/* DESKTOP NAV */}
         <div className="hidden md:flex items-center gap-8">
           {["How it Works", "For Students", "For Parents", "Universities", "About Us"].map((item) => (
             <Link
@@ -49,7 +46,6 @@ export default function NavBar() {
           ))}
         </div>
 
-        {/* RIGHT */}
         <div className="flex items-center gap-3">
           <ThemeToggle />
 

@@ -1,273 +1,241 @@
 "use client";
 
-import Image from "next/image";
+import { motion, useInView, useMotionValue, useSpring, useTransform } from "framer-motion";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
-const painPoints = [
-  "Not sure what career you want?",
-  "Don't know which subjects to choose?",
-  "Wondering which university is right for you?",
-  "Don't know how to build a strong profile?",
-]; 
-
-const features = [
-  {
-    number: "01",
-    title: "Discover",
-    desc: "Understand your interests, strengths and the possibilities that match you.",
-    icon: "✦",
-  },
-  {
-    number: "02",
-    title: "Plan",
-    desc: "Turn your goals into a clear roadmap of subjects, skills and experiences.",
-    icon: "⌁",
-  },
-  {
-    number: "03",
-    title: "Build",
-    desc: "Create projects and experiences that give your interests real-world meaning.",
-    icon: "↗",
-  },
-  {
-    number: "04",
-    title: "Explore",
-    desc: "Compare careers, universities, courses and opportunities without the overwhelm.",
-    icon: "◎",
-  },
-  {
-    number: "05",
-    title: "Grow",
-    desc: "Get ongoing guidance as your interests and goals evolve.",
-    icon: "↑",
-  },
+const passportItems = [
+  { text: "AI Research Project", date: "May 2024" },
+  { text: "National Coding Camp", date: "Mar 2024" },
+  { text: "TEDx Youth Speaker", date: "Jan 2024" },
+  { text: "Python Certification", date: "Dec 2023" },
 ];
 
+const recommendationItems = [
+  { text: "Academic Performance", type: "check" },
+  { text: "Research Experience", type: "check" },
+  { text: "Math Skills", type: "check" },
+  { text: "Extra-curricular Depth", type: "warn" },
+  { text: "Coding Skills", type: "check" },
+  { text: "Leadership", type: "warn" },
+];
 
-export default function ForStudents() {
-  
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
+function TiltCard({ children, className = "", glowColor = "rgba(168, 85, 247, 0.2)" }: { children: React.ReactNode, className?: string, glowColor?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [10, -10]), { stiffness: 200, damping: 20 });
+  const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-10, 10]), { stiffness: 200, damping: 20 });
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.1 }
-    );
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = ref.current?.getBoundingClientRect();
+    if (!rect) return;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    x.set(mouseX / rect.width - 0.5);
+    y.set(mouseY / rect.height - 0.5);
+  };
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
+  const reset = () => {
+    x.set(0);
+    y.set(0);
+  };
 
   return (
-    <section id="for-students" className="relative py-28 px-6 overflow-hidden">
-      <div className="absolute top-1/3 left-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl pointer-events-none" />
+    <motion.div
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={reset}
+      style={{ rotateX, rotateY, transformStyle: "preserve-3d", perspective: 1000 }}
+      className={`group relative rounded-3xl border border-black/5 dark:border-white/10 bg-background/80 backdrop-blur-xl p-8 transition-shadow duration-500 ${className}`}
+    >
+      <div 
+        className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+        style={{ boxShadow: `0 0 50px -12px ${glowColor}` }}
+      />
+      {children}
+    </motion.div>
+  );
+}
 
-      <div className="max-w-7xl mx-auto relative z-10"  ref={sectionRef}>
-        <div className="grid lg:grid-cols-2 gap-16 items-center mb-32">
+export default function ForStudents() {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(sectionRef, { once: false, amount: 0.2 });
 
-          <div className="relative z-10">
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent/10 border border-accent/15 text-accent text-[11px] font-bold uppercase tracking-[0.18em] mb-6">
-              For Students
-            </span>
+  return (
+    <section
+      id="for-students"
+      className="relative py-12 px-6 overflow-hidden bg-gradient-to-b from-background via-surface to-background"
+    >
+      <div className="absolute top-1/3 left-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-accent/10 rounded-full blur-3xl pointer-events-none" />
 
-            <h2
-              className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.05] tracking-tight mb-6"
-              style={{ fontFamily: "var(--font-display)" }}
-            >
-              You don&apos;t need
-              <br />
-              <span className="gradient-text">all the answers.</span>
-            </h2>
+      <div ref={sectionRef} className="max-w-7xl mx-auto relative z-10">
+        
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className="text-center mb-10"
+        >
+          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-widest mb-3">
+            ✦ Track Your Progress
+          </span>
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground/90 mb-6" style={{ fontFamily: "var(--font-display)" }}>
+            Your <span className="bg-gradient-to-r from-primary via-accent to-cyan-400 bg-clip-text text-transparent">Success</span> Dashboard
+          </h2>
+          <p className="text-lg text-foreground/50 max-w-2xl mx-auto">
+            A beautifully structured way to see your journey, achievements, and where to go next.
+          </p>
+        </motion.div>
 
-            <p className="text-lg text-foreground/50 leading-relaxed max-w-xl mb-8">
-              You just need a place to ask questions, explore possibilities
-              and figure things out without feeling like you&apos;re already
-              supposed to know everything.
-            </p>
+        <div className="grid lg:grid-cols-2 gap-8">
+          
+          <motion.div
+            initial={{ x: -120, opacity: 0, rotateY: -15 }}
+            animate={isInView ? { x: 0, opacity: 1, rotateY: 0 } : {}}
+            transition={{ type: "spring", stiffness: 60, damping: 15, delay: 0.1 }}
+          >
+            <TiltCard glowColor="rgba(168, 85, 247, 0.25)">
+              <div className="absolute top-0 right-0 w-40 h-40 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-colors duration-700" />
+              
+              <div className="flex items-center justify-between mb-8" style={{ transform: "translateZ(30px)" }}>
+                <h3 className="text-2xl font-bold" style={{ fontFamily: "var(--font-display)" }}>
+                  Career Passport
+                </h3>
+                <span className="text-xs font-bold bg-primary/10 text-primary px-3 py-1 rounded-full">Level 2</span>
+              </div>
+              <div className="flex flex-wrap justify-between gap-2 mb-8" style={{ transform: "translateZ(20px)" }}>
+                {["Projects", "Competitions", "Certificates", "Leadership", "Skills", "Activities"].map((tab, i) => (
+                  <div key={tab} className="flex flex-col items-center gap-2 group/tab cursor-pointer">
+                    <div className="w-10 h-10 rounded-2xl bg-background/50 border border-primary/10 flex items-center justify-center text-primary text-lg group-hover/tab:bg-primary group-hover/tab:text-white group-hover/tab:scale-125 group-hover/tab:shadow-lg group-hover/tab:shadow-primary/30 transition-all duration-300">
+                      {i === 0 ? "◎" : i === 1 ? "⚔️" : i === 2 ? "📜" : i === 3 ? "🏆" : i === 4 ? "✦" : "⭐"}
+                    </div>
+                    <span className="text-[10px] font-medium text-foreground/40 group-hover/tab:text-primary transition-colors">
+                      {tab}
+                    </span>
+                  </div>
+                ))}
+              </div>
+              <div className="flex flex-col sm:flex-row gap-6 mb-8" style={{ transform: "translateZ(15px)" }}>
+                <ul className="flex-1 space-y-4">
+                  {passportItems.map((item, idx) => (
+                    <motion.li 
+                      key={idx} 
+                      initial={{ opacity: 0, x: -30 }}
+                      animate={isInView ? { opacity: 1, x: 0 } : {}}
+                      transition={{ delay: 0.4 + (idx * 0.1), type: "spring", stiffness: 100 }}
+                      className="flex items-center justify-between p-3 rounded-xl bg-background/30 hover:bg-primary/10 border border-transparent hover:border-primary/20 transition-all duration-300"
+                    >
+                      <div className="flex items-center gap-3">
+                        <span className="w-2 h-2 rounded-full bg-primary group-hover:animate-pulse"></span>
+                        <span className="text-sm font-medium text-foreground/80">{item.text}</span>
+                      </div>
+                      <span className="text-xs font-mono text-foreground/40">{item.date}</span>
+                    </motion.li>
+                  ))}
+                </ul>
 
-            <div className="flex flex-wrap item-center gap-4 justify-center lg:justify-start">
-                <Link href="/careers" className="btn-primary group">
-                  <span>Discover Careers</span>
+                <div className="w-full sm:w-36 flex flex-col items-center justify-center bg-gradient-to-b from-primary/10 to-transparent border border-primary/20 rounded-2xl p-5">
+                  <span className="text-[10px] font-bold uppercase text-foreground/50 mb-2">Strength</span>
+                  <div className="relative w-20 h-20 flex items-center justify-center mb-2">
+                    <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
+                      <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(168,85,247,0.1)" strokeWidth="8" />
+                      <motion.circle
+                        cx="50" cy="50" r="40" fill="none" stroke="url(#grad1)" strokeWidth="8" strokeLinecap="round"
+                        initial={{ strokeDashoffset: 251.2 }} 
+                        animate={isInView ? { strokeDashoffset: 251.2 * (1 - 0.78) } : {}} // animates to 78%
+                        transition={{ duration: 1.5, delay: 0.8, ease: "easeOut" }}
+                        strokeDasharray="251.2"
+                      />
+                      <defs>
+                        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                          <stop offset="0%" stopColor="#a855f7" />
+                          <stop offset="100%" stopColor="#06b6d4" />
+                        </linearGradient>
+                      </defs>
+                    </svg>
+                    <span className="absolute text-lg font-bold text-primary">78%</span>
+                  </div>
+                  <span className="text-[10px] text-green-500 text-center leading-tight font-semibold">▲ Great progress!</span>
+                </div>
+              </div>
 
-                  <svg
-                    className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2.5}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+              <Link href="/passport" className="btn-primary w-full justify-center group/btn" style={{ transform: "translateZ(20px)" }}>
+                View Full Passport
+                <span className="transition-transform duration-300 group-hover/btn:translate-x-1">→</span>
+              </Link>
+            </TiltCard>
+          </motion.div>
+
+          <motion.div
+            initial={{ x: 120, opacity: 0, rotateY: 15 }}
+            animate={isInView ? { x: 0, opacity: 1, rotateY: 0 } : {}}
+            transition={{ type: "spring", stiffness: 60, damping: 15, delay: 0.2 }}
+          >
+            <TiltCard glowColor="rgba(59, 130, 246, 0.25)">
+              <div className="absolute bottom-0 left-0 w-40 h-40 bg-accent/10 rounded-full blur-3xl group-hover:bg-accent/20 transition-colors duration-700" />
+
+              <div className="flex items-center justify-between mb-8" style={{ transform: "translateZ(30px)" }}>
+                <h3 className="text-2xl font-bold" style={{ fontFamily: "var(--font-display)" }}>
+                  Novi&apos;s Pick
+                </h3>
+                <span className="text-xs font-bold bg-accent/10 text-accent px-3 py-1 rounded-full">Top Match</span>
+              </div>
+
+              <div className="flex items-center gap-5 mb-8 p-4 rounded-2xl bg-background/40 border border-white/5" style={{ transform: "translateZ(20px)" }}>
+                <motion.div 
+                  className="w-16 h-16 rounded-2xl bg-gradient-to-br from-red-500 to-red-800 flex items-center justify-center text-3xl font-black text-white shadow-xl shadow-red-500/20"
+                  animate={{ y: [0, -5, 0] }}
+                  transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
+                >
+                  S
+                </motion.div>
+                <div className="flex-1">
+                  <h4 className="text-xl font-bold mb-1">Stanford University</h4>
+                  <p className="text-xs text-foreground/50 mb-3 font-medium">Computer Science</p>
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-[10px] font-bold uppercase text-foreground/50">Readiness</span>
+                    <span className="text-xs font-bold text-accent">78%</span>
+                  </div>
+                  <div className="h-1.5 w-full bg-foreground/10 rounded-full overflow-hidden">
+                    <motion.div
+                      initial={{ width: 0 }}
+                      animate={isInView ? { width: "78%" } : {}}
+                      transition={{ delay: 1, duration: 1.5, ease: "easeOut" }}
+                      className="h-full bg-gradient-to-r from-accent to-cyan-400 rounded-full"
                     />
-                  </svg>
-                </Link>
-
-                <span className="hidden sm:block w-px h-6 bg-foreground/10"></span>
-                <span className="sm:hidden text-xs text-foreground/40">or</span>
-
-                <Link href="#how-it-works" className="btn-secondary group">
-                  See how it works
-                  <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">→</span>
-                </Link>
-            </div>
-          </div>
-
-          <div className="relative flex justify-center lg:justify-end">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-primary/20 rounded-full blur-3xl animate-pulse-glow pointer-events-none" />
-            
-            <div className="relative w-full max-w-lg animate-float-slow">
-              <Image
-                src="/3dboyconfuesed.png"
-                alt="Student exploring their future"
-                width={600}
-                height={600}
-                className="w-full h-auto object-contain mix-blend-screen dark:mix-blend-lighten"
-              />
-              <div className="absolute top-10 -left-10 rounded-2xl border border-black/5 dark:border-white/10 bg-background/80 backdrop-blur-xl p-5 shadow-xl animate-bounce-in">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center text-lg">
-                    ✦
-                  </div>
-                  <div>
-                    <p className="text-sm font-bold">It&apos;s okay not to know yet.</p>
-                    <p className="text-xs text-foreground/40">Start with one question.</p>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
+
+              <div className="grid sm:grid-cols-2 gap-3 mb-8" style={{ transform: "translateZ(15px)" }}>
+                {recommendationItems.map((item, idx) => (
+                  <motion.div 
+                    key={idx} 
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                    transition={{ delay: 0.7 + (idx * 0.1), type: "spring", stiffness: 200 }}
+                    className="flex items-center gap-3 p-3 rounded-xl bg-background/40 hover:bg-white/5 border border-transparent hover:border-accent/20 transition-all duration-300"
+                  >
+                    <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${
+                        item.type === "check" ? "bg-green-500/20 text-green-500 shadow-lg shadow-green-500/20" : "bg-yellow-500/20 text-yellow-500 shadow-lg shadow-yellow-500/20"
+                      }`}>
+                      {item.type === "check" ? "✓" : "!"}
+                    </div>
+                    <span className="text-xs font-medium text-foreground/70">{item.text}</span>
+                  </motion.div>
+                ))}
+              </div>
+
+              <Link href="/roadmap" className="btn-secondary w-full justify-center group/btn" style={{ transform: "translateZ(20px)" }}>
+                View Full Roadmap
+                <span className="transition-transform duration-300 group-hover/btn:translate-x-1">→</span>
+              </Link>
+            </TiltCard>
+          </motion.div>
+
         </div>
-
-        
-        <div className={`rounded-3xl border border-black/5 dark:border-white/5 bg-gradient-to-br from-primary/[0.04] via-background to-accent/[0.04] p-8 sm:p-12 mb-32 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-
-          <div className="max-w-2xl mb-12">
-            <span className="text-xs uppercase tracking-[0.18em] font-bold text-primary">
-              Sound familiar?
-            </span>
-
-            <h3
-              className="text-3xl sm:text-4xl font-bold mt-3 mb-4"
-              style={{ fontFamily: "var(--font-display)" }}
-            >
-              The questions get bigger as you grow.
-            </h3>
-
-            <p className="text-foreground/45 leading-relaxed">
-              And searching for answers across a hundred different places
-              makes everything feel harder.
-            </p>
-          </div>
-
-          <div className="grid sm:grid-cols-2 gap-4 mb-10">
-            {painPoints.map((point, index) => (
-              <div
-                key={point}
-                className="group flex items-center gap-4 rounded-2xl border border-black/5 dark:border-white/5 bg-background/60 px-6 py-5 hover:border-primary/30 hover:shadow-xl hover:-translate-y-1 transition-all duration-300" style={{ transitionDelay: `${index * 100}ms` }}
-              >
-                <div className="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0 text-sm font-bold group-hover:bg-primary group-hover:text-white transition-all duration-300">
-                  ?
-                </div>
-
-                <p className="text-sm sm:text-base font-medium text-foreground/60 group-hover:text-foreground/80">
-                  {point}
-                </p>
-              </div>
-            ))}
-          </div>
-
-          <div className="flex items-center gap-4 rounded-2xl bg-primary/10 border border-primary/15 px-6 py-5 hover:bg-primary/20 transition-all duration-300">
-            <div className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold">
-              ✓
-            </div>
-
-            <p
-              className="font-bold"
-              style={{ fontFamily: "var(--font-display)" }}
-            >
-              That&apos;s exactly where Novi comes in.
-            </p>
-          </div>
-        </div>
-
-        <div className={`transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ transitionDelay: '200ms' }}>
-          <div className="mb-14 text-center max-w-3xl mx-auto">
-            <span className="text-xs uppercase tracking-[0.18em] font-bold text-primary mb-3 block">
-              One mentor. Many roles.
-            </span>
-            <h3 className="text-4xl sm:text-5xl font-bold mb-4" style={{ fontFamily: "var(--font-display)" }}>
-              Novi helps you move <span className="gradient-text">forward.</span>
-            </h3>
-            <p className="text-base text-foreground/40 mx-auto max-w-lg">
-              Not by giving you a fixed answer—but by helping you make better decisions.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-6">
-            {features.slice(0, 4).map((feature, index) => (
-              <div
-                key={feature.number}
-                className="group relative rounded-3xl border border-black/5 dark:border-white/5 bg-background/40 p-8 hover:border-primary/30 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 overflow-hidden"
-                style={{ transitionDelay: `${index * 100}ms` }}
-              >
-                <div className="absolute top-0 right-0 w-40 h-40 bg-primary/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                
-                <div className="flex items-start justify-between mb-6">
-                  <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center text-xl group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300">
-                    {feature.icon}
-                  </div>
-                  <span className="text-xs font-bold tracking-widest text-foreground/20">
-                    {feature.number}
-                  </span>
-                </div>
-
-                <h4 className="text-2xl font-bold mb-3" style={{ fontFamily: "var(--font-display)" }}>
-                  {feature.title}
-                </h4>
-                <p className="text-base text-foreground/50 leading-relaxed">
-                  {feature.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-6 group relative rounded-3xl border border-black/5 dark:border-white/5 bg-gradient-to-r from-primary/5 to-accent/5 p-8 hover:border-primary/30 hover:-translate-y-1 transition-all duration-500">
-              <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-                <div className="flex items-start gap-6">
-                  <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
-                    {features[4].icon}
-                  </div>
-                  <div>
-                    <h4 className="text-2xl font-bold mb-2" style={{ fontFamily: "var(--font-display)" }}>
-                      {features[4].title}
-                    </h4>
-                    <p className="text-base text-foreground/50 leading-relaxed max-w-2xl">
-                      {features[4].desc}
-                    </p>
-                  </div>
-                </div>
-                <Link href="/signup" className="btn-primary whitespace-nowrap">
-                  Start Growing →
-                </Link>
-              </div>
-            </div>
-        </div>
-        
-
       </div>
     </section>
   );

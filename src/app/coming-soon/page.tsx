@@ -1,4 +1,4 @@
-"use client"; // This allows us to use React state and effects
+"use client"; 
 
 import { useState } from 'react';
 import './style.css';

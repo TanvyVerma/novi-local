@@ -58,11 +58,6 @@ function OrbitRing({
   );
 }
 
-/**
- * Ambient 3D layer — drop behind existing 2D artwork (e.g. the hero mascot)
- * as a background element. Not click-interactive by design: pass
- * `pointer-events-none` via className from the parent so it never blocks UI.
- */
 export default function NoviOrb3D({ className = "" }: { className?: string }) {
   return (
     <div className={className} aria-hidden="true">
