@@ -9,6 +9,7 @@ import HowItWorks from "./landing_section/how-it-works";
 import ForStudents from "./landing_section/for-students";
 import AboutUs from "./landing_section/about-us";
 import Universities from "./landing_section/universities"
+import ForParents from './landing_section/for-parents'
 
 
 export default function Home() {
@@ -21,6 +22,7 @@ export default function Home() {
         <Hero />
         <HowItWorks />
         <ForStudents />
+        <ForParents />
         <Universities />
         <AboutUs />
       </main>

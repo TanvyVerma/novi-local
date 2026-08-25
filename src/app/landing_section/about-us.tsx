@@ -1,11 +1,3 @@
-
-
-
-
-
-
-
-
 "use client";
 
 import Image from "next/image";
@@ -14,30 +6,24 @@ import Link from "next/link";
 export default function AboutUs() {
   return (
     <section id="about-us" className="relative pt-8 pb-12 px-6 overflow-hidden bg-background">
-      {/* Changed to max-w-[1400px] to make it wider, added mx-auto */}
       <div className="max-w-[1400px] mx-auto">
         <div className="relative rounded-3xl overflow-hidden border border-black/5 dark:border-white/5 bg-gradient-to-br from-primary/[0.08] via-background to-accent/[0.05]">
           
-          {/* Changed padding to p-6 sm:p-8 to reduce overall height */}
           <div className="grid lg:grid-cols-2 gap-8 items-center p-6 sm:p-8">
-            
-            {/* Image Side */}
             <div className="relative flex justify-center lg:justify-start order-2 lg:order-1">
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-primary/20 rounded-full blur-3xl pointer-events-none" />
               
-              {/* Added h-[300px] sm:h-[400px] to constrain the height and make it shorter */}
               <div className="relative w-full max-w-md mx-auto h-[300px] sm:h-[400px] animate-float-slow">
                 <Image
                   src="/3dboy.png" 
                   alt="Novi AI Mentor"
-                  fill // Using fill allows it to fit within the height constraint
+                  fill 
                   priority
                   className="w-full h-auto object-contain drop-shadow-2xl"
                 />
               </div>
             </div>
 
-            {/* Text Side */}
             <div className="relative z-10 order-1 lg:order-2">
               <h2 
                 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight mb-4"
@@ -59,8 +45,6 @@ export default function AboutUs() {
                   Start your journey 
                   <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
                 </button>
-
-                {/* Changed checkmarks to a single row that wraps, reducing vertical height */}
                 <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm text-foreground/70">
                   <div className="flex items-center gap-2">
                     <span className="w-4 h-4 rounded-full bg-green-500/20 text-green-500 flex items-center justify-center text-[10px]">✓</span>
@@ -178,14 +162,3 @@ export default function AboutUs() {
     </section>
   );
 }
-
-
-
-
-
-
-
-
-
-
-

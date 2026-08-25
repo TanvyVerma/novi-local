@@ -33,16 +33,11 @@ export default function ForParents() {
       id="for-parents"
       className="relative py-24 px-6 overflow-hidden bg-gradient-to-b from-background via-surface to-background"
     >
-      {/* Seamless Background Decor */}
       <div className="absolute top-1/4 right-0 w-[600px] h-[600px] bg-accent/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-1/4 left-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl pointer-events-none" />
 
       <div ref={sectionRef} className="max-w-7xl mx-auto relative z-10">
-        
-        {/* Main Section */}
         <div className="grid lg:grid-cols-2 gap-16 items-center mb-32">
-          
-          {/* Left Side: Text & CTA */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -74,8 +69,6 @@ export default function ForParents() {
               <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
             </Link>
           </motion.div>
-
-          {/* Right Side: Dashboard UI */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -83,10 +76,8 @@ export default function ForParents() {
             className="relative w-full flex justify-center lg:justify-end"
           >
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-accent/10 rounded-full blur-3xl pointer-events-none" />
-
             <div className="relative w-full max-w-md rounded-2xl border border-black/5 dark:border-white/10 bg-background/80 backdrop-blur-xl p-6 shadow-2xl">
               
-              {/* Header */}
               <div className="flex items-center gap-4 mb-6 pb-6 border-b border-black/5 dark:border-white/10">
                 <div className="w-12 h-12 rounded-full bg-gradient-to-br from-accent to-primary flex items-center justify-center text-white font-bold text-lg shrink-0">
                   R
@@ -96,8 +87,6 @@ export default function ForParents() {
                   <p className="text-xs text-foreground/50 font-medium">Grade 11</p>
                 </div>
               </div>
-
-              {/* Stats Grid */}
               <div className="grid grid-cols-2 gap-4 mb-6">
                 <div>
                   <span className="text-[10px] font-bold uppercase tracking-widest text-foreground/40 block mb-1">Career Direction</span>
@@ -130,8 +119,6 @@ export default function ForParents() {
                   </div>
                 </div>
               </div>
-
-              {/* Focus List */}
               <div>
                 <h4 className="text-xs font-bold text-foreground/70 mb-3">This month&apos;s focus</h4>
                 <ul className="space-y-2">
@@ -153,7 +140,6 @@ export default function ForParents() {
           </motion.div>
         </div>
 
-        {/* ================= INTERACTIVE 3D TESTIMONIAL CAROUSEL ================= */}
         <div className="text-center">
           <motion.h3
             initial={{ opacity: 0, y: 20 }}
@@ -167,11 +153,9 @@ export default function ForParents() {
 
           <div className="relative w-full max-w-4xl mx-auto h-[300px] sm:h-[280px] flex items-center justify-center perspective-1000">
             
-            {/* 3D Carousel Container */}
             <div className="relative w-full h-full flex items-center justify-center">
               <AnimatePresence mode="popLayout">
                 {testimonials.map((testimonial, idx) => {
-                  // Calculate relative position (0 = center, -1 = left, 1 = right)
                   const offset = (idx - currentIndex + testimonials.length) % testimonials.length;
                   const position = offset === 0 ? 0 : offset === 1 ? 1 : -1;
                   
@@ -193,9 +177,8 @@ export default function ForParents() {
                       transition={{ type: "spring", stiffness: 200, damping: 25 }}
                       style={{ transformStyle: "preserve-3d" }}
                     >
-                      {/* Card Content */}
                       <div className="relative rounded-3xl border border-black/5 dark:border-white/10 bg-background/80 backdrop-blur-xl p-8 shadow-2xl overflow-hidden">
-                        {/* Dynamic Glow on Active */}
+                        
                         <div className={`absolute top-0 left-1/2 -translate-x-1/2 w-2/3 h-32 bg-gradient-to-b ${isActive ? 'from-accent/20' : 'from-primary/10'} to-transparent blur-2xl pointer-events-none transition-all duration-700`} />
                         
                         <span className="text-6xl font-serif text-accent/30 leading-none mb-4 block">“</span>
@@ -212,8 +195,6 @@ export default function ForParents() {
               </AnimatePresence>
             </div>
           </div>
-
-          {/* Navigation Buttons */}
           <div className="flex items-center justify-center gap-6 mt-8">
             <button
               onClick={handlePrev}
