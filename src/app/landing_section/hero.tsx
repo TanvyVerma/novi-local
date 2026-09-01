@@ -7,7 +7,6 @@ import dynamic from 'next/dynamic'
 import BackgroundParticles from '../components/3d/BackgroundParticles'
 import {Magnetic} from '../components/ui/Magnetic'
 
-const InteractiveTorus = dynamic(() => import('../components/3d/InteractiveTorus'), { ssr: false })
 
 export default function Hero() {
   const [showChat, setShowChat] = useState(false)

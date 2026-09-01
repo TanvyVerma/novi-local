@@ -7,21 +7,19 @@ export default function ThemeToggle() {
   const { theme, toggle } = useTheme()
   const [mounted, setMounted] = useState(false)
 
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
+  useEffect(() => { setMounted(true) }, [])
   if (!mounted) {
     return (
-      <button
-        className="w-9 h-9 rounded-xl flex items-center justify-center border border-black/10 dark:border-white/10"
-        aria-label="Toggle theme"
+      <div
+        className="w-9 h-9 rounded-xl border border-black/10"
+        aria-hidden="true"
       />
     )
   }
 
   return (
     <button
+      type="button"
       onClick={toggle}
       className="w-9 h-9 rounded-xl flex items-center justify-center border border-black/10 dark:border-white/10 hover:border-purple-500/40 hover:bg-purple-500/10 transition-all duration-300 group"
       aria-label="Toggle theme"

@@ -1,10 +1,6 @@
 'use client'
 import { useState, useRef, useEffect } from 'react'
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
-import dynamic from 'next/dynamic'
-import { Magnetic } from '../components/ui/Magnetic'
-
-const InteractiveTorus = dynamic(() => import('../components/3d/InteractiveTorus'), { ssr: false })
 
 const steps = [
   { 
@@ -59,55 +55,24 @@ const steps = [
 
 export default function HowItWorks() {
   const [active, setActive] = useState(0)
-  const [hasStarted, setHasStarted] = useState(false)
   const sectionRef = useRef<HTMLDivElement>(null)
-  const containerRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "end start"] })
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.5, 1, 1, 0.5])
   const scale = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.95, 1, 1, 0.95])
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          setHasStarted(true)
-        }
-      },
-      { threshold: 0.2 }
-    )
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current)
-    }
-
-    return () => observer.disconnect()
-  }, [])
-
   return (
     <section ref={sectionRef} id="how-it-works" className="relative py-24 px-6 overflow-hidden">
-      <div className="absolute inset-0 opacity-10 pointer-events-none">
-        <InteractiveTorus />
-      </div>
-
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-emerald-500/5 rounded-full blur-3xl" />
       </div>
 
-      <motion.div 
-        style={{ opacity, scale }}
-        className="max-w-7xl mx-auto relative z-10"
-      >
+      <motion.div style={{ opacity, scale }} className="max-w-7xl mx-auto relative z-10">
+        
         <motion.div 
           initial={{ opacity: 0, y: 80, scale: 0.9 }}
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
           viewport={{ once: true }}
-          transition={{ 
-            duration: 0.8, 
-            ease: [0.22, 1, 0.36, 1],
-            type: "spring",
-            stiffness: 100,
-            damping: 15
-          }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], type: "spring", stiffness: 100, damping: 15 }}
           className="max-w-3xl mb-14"
         >
           <motion.span 
@@ -125,43 +90,20 @@ export default function HowItWorks() {
             initial={{ opacity: 0, y: 40, scale: 0.8 }}
             whileInView={{ opacity: 1, y: 0, scale: 1 }}
             viewport={{ once: true }}
-            transition={{ 
-              delay: 0.2, 
-              duration: 0.8, 
-              type: "spring",
-              stiffness: 80,
-              damping: 12
-            }}
+            transition={{ delay: 0.2, duration: 0.8, type: "spring", stiffness: 80, damping: 12 }}
             className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.05] tracking-tight mb-6"
           >
-            <motion.span
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.4, duration: 0.6 }}
-              className="block"
-            >
+            <motion.span initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4, duration: 0.6 }} className="block">
               Four years.
             </motion.span>
-            <motion.span
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.5, duration: 0.6 }}
-              className="block"
-            >
+            <motion.span initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.5, duration: 0.6 }} className="block">
               One clear path.
             </motion.span>
             <motion.span 
               initial={{ opacity: 0, scale: 0.5, rotate: -5 }}
               whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
               viewport={{ once: true }}
-              transition={{ 
-                delay: 0.6, 
-                duration: 0.7, 
-                type: "spring",
-                stiffness: 100
-              }}
+              transition={{ delay: 0.6, duration: 0.7, type: "spring", stiffness: 100 }}
               className="bg-gradient-to-r from-emerald-400 via-cyan-400 to-blue-400 bg-clip-text text-transparent inline-block"
             >
               Your future.
@@ -178,222 +120,90 @@ export default function HowItWorks() {
             From Grade 9 to 12, Novi guides you through every step—from discovering who you are, to applying with absolute confidence.
           </motion.p>
         </motion.div>
-
-        <div ref={containerRef} className="relative mb-16">
-          <div className="absolute inset-0 pointer-events-none hidden lg:block">
-            <svg 
-              className="w-full h-full"
-              style={{ 
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
-                overflow: 'visible'
-              }}
-              viewBox="0 0 100 100"
-              preserveAspectRatio="none"
-            >
-              <motion.line
-                x1="8"
-                y1="30"
-                x2="92"
-                y2="30"
-                stroke="#10b981"
-                strokeWidth="1.5"
-                strokeDasharray="6 6"
-                initial={{ pathLength: 0, opacity: 0 }}
-                animate={hasStarted ? { pathLength: 1, opacity: 0.5 } : { pathLength: 0, opacity: 0 }}
-                transition={{ duration: 1.5, delay: 0.8, ease: "easeInOut" }}
-                strokeLinecap="round"
-              />
-              <motion.line
-                x1="8"
-                y1="30"
-                x2="92"
-                y2="30"
-                stroke="#10b981"
-                strokeWidth="4"
-                strokeDasharray="6 6"
-                initial={{ pathLength: 0, opacity: 0 }}
-                animate={hasStarted ? { pathLength: 1, opacity: 0.1 } : { pathLength: 0, opacity: 0 }}
-                transition={{ duration: 1.5, delay: 0.8, ease: "easeInOut" }}
-                strokeLinecap="round"
-                style={{ filter: 'blur(6px)' }}
-              />
-              {steps.map((_, index) => {
-                const xPos = 12 + (index * 25.3) 
-                return (
-                  <motion.circle
-                    key={index}
-                    cx={xPos}
-                    cy="30"
-                    r="2"
-                    fill="#10b981"
-                    initial={{ scale: 0, opacity: 0 }}
-                    animate={hasStarted ? { 
-                      scale: 1, 
-                      opacity: 0.8,
-                      r: active === index ? 3.5 : 2
-                    } : { scale: 0, opacity: 0 }}
-                    transition={{ 
-                      delay: 1 + (index * 0.15), 
-                      duration: 0.4,
-                      type: "spring",
-                      stiffness: 200
-                    }}
-                  >
-                    {active === index && (
-                      <animate 
-                        attributeName="opacity"
-                        values="0.8;0.3;0.8"
-                        dur="1.5s"
-                        repeatCount="indefinite"
-                      />
-                    )}
-                  </motion.circle>
-                )
-              })}
-            </svg>
-          </div>
-
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 relative">
-            {steps.map((step, index) => {
-              const isActive = active === index
-              const delay = index * 0.15
-
-              return (
-                <motion.button
-                  key={step.grade}
-                  type="button"
-                  onClick={() => setActive(index)}
-                  className="text-left group relative"
-                  initial={{ 
-                    opacity: 0, 
-                    x: 100,
-                    scale: 0.8,
-                    rotate: 5
-                  }}
-                  animate={hasStarted ? { 
-                    opacity: 1, 
-                    x: 0,
-                    scale: 1,
-                    rotate: 0
-                  } : { 
-                    opacity: 0, 
-                    x: 100,
-                    scale: 0.8,
-                    rotate: 5
-                  }}
-                  transition={{ 
-                    delay: 0.8 + delay, 
-                    duration: 0.6,
-                    type: "spring",
-                    stiffness: 120,
-                    damping: 15
-                  }}
-                  whileHover={{ 
-                    scale: 1.03,
-                    transition: { duration: 0.2 }
-                  }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-20 hidden lg:block">
-                    <motion.div 
-                      initial={{ scale: 0, opacity: 0 }}
-                      animate={hasStarted ? { 
-                        scale: isActive ? 1.3 : 1, 
-                        opacity: 1
-                      } : { scale: 0, opacity: 0 }}
-                      transition={{ delay: 1 + delay, duration: 0.4 }}
-                      className={`w-2.5 h-2.5 rounded-full transition-all duration-500 ${
-                        isActive ? 'bg-emerald-400' : 'bg-emerald-400/60'
-                      }`}
-                      style={{
-                        boxShadow: isActive 
-                          ? `0 0 20px rgba(16,185,129,0.8), 0 0 40px rgba(16,185,129,0.4)` 
-                          : `0 0 10px rgba(16,185,129,0.2)`
-                      }}
-                    />
+        <div className="flex flex-col lg:flex-row gap-4 lg:items-stretch">
+          {steps.map((step, index) => {
+            const isActive = active === index
+            
+            return (
+              <motion.button
+                key={step.grade}
+                type="button"
+                onClick={() => setActive(index)}
+                layout
+                transition={{ type: "spring", stiffness: 200, damping: 25 }}
+                className={`group relative overflow-hidden text-left rounded-3xl border transition-all duration-500 
+                  flex flex-col 
+                  w-full lg:w-auto
+                  ${isActive 
+                    ? `lg:flex-[3] bg-background/90 ${step.borderColor} shadow-2xl` // Dark bg, colored border
+                    : `lg:flex-1 bg-background/40 border-white/10 hover:border-white/20 opacity-70 lg:opacity-100 lg:hover:opacity-100`
+                  }`
+                }
+              >
+                {isActive && (
+                  <div 
+                    className="absolute top-0 right-0 w-40 h-40 rounded-full blur-3xl opacity-20 pointer-events-none"
+                    style={{ backgroundColor: step.glowColor }}
+                  />
+                )}
+                <div className={`flex items-center gap-4 p-5 pb-0 relative z-10`}>
+                  <div className={`w-12 h-12 rounded-2xl flex items-center justify-center font-bold shrink-0 transition-all duration-500 ${
+                    isActive ? `bg-gradient-to-r ${step.color} text-white` : 'bg-background border border-white/10 text-emerald-400'
+                  }`}>
+                    {step.grade}
                   </div>
-
-                  <div className="relative z-10 flex justify-center lg:justify-start mb-6">
-                    <motion.div 
-                      className={`relative w-[60px] h-[60px] rounded-2xl flex items-center justify-center border transition-all duration-500 ${
-                        isActive
-                          ? `bg-gradient-to-r ${step.color} text-white border-emerald-500 shadow-[0_0_35px_rgba(16,185,129,0.5)] scale-110`
-                          : "bg-background border-white/10 text-emerald-400 group-hover:border-emerald-500/30 group-hover:-translate-y-1"
-                      }`}
-                      whileHover={{ scale: 1.05 }}
-                      transition={{ type: "spring", stiffness: 200 }}
-                    >
-                      <span className="text-xl font-bold">{step.grade}</span>
-                      <AnimatePresence>
-                        {isActive && (
-                          <motion.span 
-                            initial={{ scale: 0, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            exit={{ scale: 0, opacity: 0 }}
-                            className="absolute -inset-2 rounded-2xl border border-emerald-500/40"
-                            style={{
-                              boxShadow: `0 0 40px rgba(16,185,129,0.2)`
-                            }}
-                          />
-                        )}
-                      </AnimatePresence>
-                    </motion.div>
-                  </div>
-
-                  <motion.div 
-                    className={`rounded-2xl p-5 border transition-all duration-500 ${
-                      isActive
-                        ? `border-emerald-500/50 bg-emerald-500/5 shadow-[0_0_30px_rgba(16,185,129,0.15)]`
-                        : "border-white/5 hover:border-emerald-500/20"
-                    }`}
-                    animate={{
-                      scale: isActive ? 1.02 : 1,
-                      boxShadow: isActive 
-                        ? `0 0 40px rgba(16,185,129,0.1)` 
-                        : `0 0 0px rgba(16,185,129,0)`
-                    }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <span className="text-[10px] uppercase tracking-[0.16em] font-bold text-foreground/30">
+                  <div className="min-w-0">
+                    <span className={`text-[10px] uppercase tracking-[0.16em] font-bold ${isActive ? 'text-foreground/50' : 'text-foreground/30'}`}>
                       {step.label}
                     </span>
-                    <h3 className={`text-lg font-bold mt-2 mb-2 transition-colors duration-300 ${
-                      isActive ? 'text-emerald-400' : ''
-                    }`}>
+                    <h3 className={`text-xl font-bold truncate ${isActive ? 'text-foreground' : 'text-foreground/80 group-hover:text-emerald-400'} transition-colors`}>
                       {step.title}
                     </h3>
-                    <p className="text-sm text-foreground/45 leading-relaxed">{step.short}</p>
-                    <div className={`mt-4 text-xs font-semibold transition-all duration-300 flex items-center gap-1 ${
-                      isActive ? "text-emerald-400" : "text-foreground/25 group-hover:text-emerald-400"
-                    }`}>
-                      {isActive ? (
-                        <motion.span
-                          initial={{ opacity: 0, x: -5 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          className="flex items-center gap-1"
-                        >
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                          Exploring this stage
-                        </motion.span>
-                      ) : (
-                        "View stage"
-                      )}
-                      <motion.span 
-                        className={`transition-transform duration-300 ${isActive ? "translate-x-1" : "group-hover:translate-x-1"}`}
-                        animate={{ x: isActive ? 3 : 0 }}
+                  </div>
+                </div>
+
+                <div className="p-5 relative z-10">
+                  <p className={`text-sm leading-relaxed ${isActive ? 'text-foreground/70' : 'text-foreground/45'}`}>
+                    {step.short}
+                  </p>
+
+                  <AnimatePresence>
+                    {isActive && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0, y: 10 }}
+                        animate={{ opacity: 1, height: "auto", y: 0 }}
+                        exit={{ opacity: 0, height: 0, y: 10 }}
+                        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                        className="overflow-hidden"
                       >
-                        →
+                        <p className={`mt-4 text-sm leading-relaxed text-foreground/60`}>
+                          {step.desc}
+                        </p>
+                        
+                        <div className="mt-5 grid grid-cols-2 gap-2">
+                          {step.items.map((item, i) => (
+                            <div key={i} className={`flex items-center gap-2 text-xs font-medium ${isActive ? 'text-foreground/80' : 'text-foreground/60'}`}>
+                              <span className={`w-1.5 h-1.5 rounded-full ${isActive ? 'bg-emerald-400' : 'bg-emerald-400/40'}`} />
+                              {item}
+                            </div>
+                          ))}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                  <div className={`mt-5 text-xs font-semibold flex items-center gap-1 transition-all duration-300 ${isActive ? 'text-emerald-400' : 'text-foreground/30 group-hover:text-emerald-400'}`}>
+                    {isActive ? (
+                      <motion.span initial={{ opacity: 0, x: -5 }} animate={{ opacity: 1, x: 0 }} className="flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                        Exploring this stage
                       </motion.span>
-                    </div>
-                  </motion.div>
-                </motion.button>
-              )
-            })}
-          </div>
+                    ) : ("View stage")}
+                    <motion.span className={`transition-transform duration-300 ${isActive ? "translate-x-1" : "group-hover:translate-x-1"}`} animate={{ x: isActive ? 3 : 0 }}>→</motion.span>
+                  </div>
+                </div>
+              </motion.button>
+            )
+          })}
         </div>
 
         <motion.div 
@@ -401,19 +211,12 @@ export default function HowItWorks() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.5, duration: 0.6, type: "spring" }}
-          className="relative rounded-2xl border border-emerald-500/20 bg-gradient-to-r from-emerald-500/5 to-cyan-500/5 p-6 sm:p-8 hover:border-emerald-500/40 transition-all duration-500 group overflow-hidden"
+          className="relative mt-12 rounded-2xl border border-emerald-500/20 bg-gradient-to-r from-emerald-500/5 to-cyan-500/5 p-6 sm:p-8 hover:border-emerald-500/40 transition-all duration-500 group overflow-hidden"
         >
-          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-            <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 via-transparent to-emerald-500/10 animate-pulse" />
-          </div>
-          
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-emerald-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 -translate-x-full group-hover:translate-x-full" style={{ transition: "transform 1s ease" }} />
           
           <div className="flex gap-5 items-start relative z-10">
-            <motion.div 
-              whileHover={{ rotate: 12, scale: 1.1 }}
-              className="w-11 h-11 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0"
-            >
+            <motion.div whileHover={{ rotate: 12, scale: 1.1 }} className="w-11 h-11 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0">
               ✦
             </motion.div>
             <div>
@@ -424,6 +227,7 @@ export default function HowItWorks() {
             </div>
           </div>
         </motion.div>
+
       </motion.div>
     </section>
   )

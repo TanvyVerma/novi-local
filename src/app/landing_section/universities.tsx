@@ -34,7 +34,6 @@ export default function Universities() {
     return () => clearInterval(interval)
   }, [])
 
-  // Get 3 visible universities
   const getVisibleUniversities = () => {
     const items = []
     for (let i = -1; i <= 1; i++) {
@@ -64,7 +63,6 @@ export default function Universities() {
       >
         <div className="grid lg:grid-cols-2 gap-16 items-center min-h-[70vh]">
           
-          {/* LEFT SIDE - Heading Text */}
           <motion.div 
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -160,8 +158,6 @@ export default function Universities() {
               <span className="text-sm text-foreground/40">Trusted by 10,000+ students</span>
             </motion.div>
           </motion.div>
-
-          {/* RIGHT SIDE - Fixed & Upgraded 3D Cover Flow */}
           <motion.div 
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -184,7 +180,6 @@ export default function Universities() {
             <div className="relative w-full max-w-md h-[400px] perspective-1000">
               <AnimatePresence mode="popLayout">
                 {universities.map((uni, idx) => {
-                  // Calculate 3D position
                   const offset = (idx - currentIndex + universities.length) % universities.length;
                   const position = offset === 0 ? 0 : (offset === 1 ? 1 : (offset === universities.length - 1 ? -1 : (offset > universities.length / 2 ? -1 : 1)));
                   
@@ -246,8 +241,6 @@ export default function Universities() {
                             style={{ rotate: '20deg' }}
                           />
                         )}
-
-                        {/* Match % Badge */}
                         {isActive && (
                           <motion.div 
                             initial={{ opacity: 0, y: 10 }} 
@@ -278,8 +271,6 @@ export default function Universities() {
                 ))}
               </div>
             </div>
-
-            {/* FIXED PARTICLES: No Math.random() - No Hydration Error */}
             <div className="absolute inset-0 pointer-events-none">
               {[
                 { x: 100, y: -50 },
