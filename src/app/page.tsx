@@ -1,14 +1,3 @@
-// import dynamic from 'next/dynamic'
-// import NavBar from './components/NavBar'
-// import LandingCurtain from './components/LandingCurtain'
-// import Hero from "./landing_section/hero";
-// import HowItWorks from "./landing_section/how-it-works";
-// import ForStudents from "./landing_section/for-students";
-// import AboutUs from "./landing_section/about-us";
-// import Universities from "./landing_section/universities"
-// import ForParents from './landing_section/for-parents'
-
-
 import NavBar from "@/components/ui/NavBar";
 import LandingCurtain from "@/components/ui/LandingCurtain";
 import Hero from "@/components/home/Hero";
