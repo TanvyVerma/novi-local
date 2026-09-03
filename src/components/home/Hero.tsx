@@ -3,9 +3,14 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
+// import dynamic from 'next/dynamic'
+// import BackgroundParticles from '../components/3d/BackgroundParticles'
+// import {Magnetic} from '../components/ui/Magnetic'
+
+
 import dynamic from 'next/dynamic'
-import BackgroundParticles from '../components/3d/BackgroundParticles'
-import {Magnetic} from '../components/ui/Magnetic'
+import BackgroundParticles from "@/components/3d/BackgroundParticles"
+import { Magnetic } from "@/components/ui/Magnetic"
 
 
 export default function Hero() {
