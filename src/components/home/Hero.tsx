@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
-
 import dynamic from 'next/dynamic'
 import BackgroundParticles from "@/components/3d/BackgroundParticles"
 import { Magnetic } from "@/components/ui/Magnetic"
@@ -240,25 +239,6 @@ export default function Hero() {
                 </div>
               </motion.div>
 
-              <motion.div 
-                animate={{ y: [0, 15, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute bottom-[10%] -left-2 sm:left-0 z-30"
-              >
-                <div className="glass-card rounded-xl px-3 py-2 backdrop-blur-xl border border-purple-500/20 shadow-xl">
-                  <span className="text-[10px] font-bold text-purple-300">🚀 4-Year Journey</span>
-                </div>
-              </motion.div>
-
-              <motion.div 
-                animate={{ y: [0, -10, 0] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                className="absolute bottom-[25%] -right-2 sm:right-4 z-30"
-              >
-                <div className="glass-card rounded-xl px-3 py-2 backdrop-blur-xl border border-blue-500/20 shadow-xl">
-                  <span className="text-[10px] font-bold text-blue-300">🎯 Dream University</span>
-                </div>
-              </motion.div>
               <div className="absolute inset-0 pointer-events-none">
                 {[
                   { x: '10%', y: '20%', d: 2 }, 
