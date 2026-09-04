@@ -155,7 +155,7 @@
 //                   </svg>
 //                 ))}
 //               </div>
-//               <span className="text-sm text-foreground/40">Trusted by 10,000+ students</span>
+//               <span className="text-sm text-foreground/60">Trusted by 10,000+ students</span>
 //             </motion.div>
 //           </motion.div>
 //           <motion.div 
@@ -215,7 +215,7 @@
 //                         className={`relative w-56 h-72 rounded-3xl flex flex-col items-center justify-center overflow-hidden transition-all duration-500 ${
 //                           isActive 
 //                             ? `bg-gradient-to-br ${uni.color} shadow-2xl ring-4 ring-emerald-400/30` 
-//                             : 'bg-foreground/5 border border-white/10'
+//                             : 'bg-foreground/5 border border-foreground/10'
 //                         }`}
 //                       >
 //                         {isActive && <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-50" />}
@@ -419,7 +419,7 @@ export default function Universities() {
                   className={`px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${
                     activeCategory === cat
                       ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/30'
-                      : 'bg-background/50 border border-white/10 hover:border-emerald-500/40 text-foreground/60'
+                      : 'bg-background/50 border border-foreground/10 hover:border-emerald-500/40 text-foreground/60'
                   }`}
                 >
                   {cat}
@@ -442,7 +442,7 @@ export default function Universities() {
                   animate={{ scale: 1, opacity: 1 }}
                   exit={{ scale: 0.95, opacity: 0 }}
                   transition={{ type: "spring", stiffness: 200, damping: 25 }}
-                  className="col-span-2 row-span-2 rounded-3xl p-6 flex flex-col justify-between relative overflow-hidden bg-background/70 backdrop-blur-2xl border border-white/10 shadow-2xl"
+                  className="col-span-2 row-span-2 rounded-3xl p-6 flex flex-col justify-between relative overflow-hidden bg-background/70 backdrop-blur-2xl border border-foreground/10 shadow-2xl"
                 >
                   <div 
                     className="absolute inset-0 opacity-60 pointer-events-none"
@@ -454,8 +454,8 @@ export default function Universities() {
                   />
 
                   <div className="flex items-center justify-between relative z-10">
-                    <span className="text-foreground/40 text-xs font-bold uppercase tracking-widest">Top Match</span>
-                    <span className="bg-white/5 border border-white/10 px-3 py-1 rounded-full text-xs font-bold text-foreground/60">{universities[activeIndex].category}</span>
+                    <span className="text-foreground/60 text-xs font-bold uppercase tracking-widest">Top Match</span>
+                    <span className="bg-white/5 border border-foreground/10 px-3 py-1 rounded-full text-xs font-bold text-foreground/60">{universities[activeIndex].category}</span>
                   </div>
 
                   <div className="flex flex-col items-center justify-center text-center my-6 relative z-10">
@@ -472,7 +472,7 @@ export default function Universities() {
                     <h3 className="text-2xl font-bold text-foreground">{universities[activeIndex].name}</h3>
                     
                     <span 
-                      className="mt-3 px-4 py-1.5 rounded-full text-sm font-bold border border-white/10 bg-white/5"
+                      className="mt-3 px-4 py-1.5 rounded-full text-sm font-bold border border-foreground/10 bg-white/5"
                       style={{ color: universities[activeIndex].glow }}
                     >
                       {universities[activeIndex].match}% Match
@@ -499,7 +499,7 @@ export default function Universities() {
                     onClick={() => setActiveIndex(universities.findIndex(u => u.name === uni.name))}
                     whileHover={{ scale: 1.05, y: -5, borderColor: uni.glow }}
                     whileTap={{ scale: 0.95 }}
-                    className={`rounded-2xl p-4 flex flex-col items-center justify-center gap-2 text-center bg-background/40 border border-white/5 hover:bg-background/60 transition-all duration-300 cursor-pointer`}
+                    className={`rounded-2xl p-4 flex flex-col items-center justify-center gap-2 text-center bg-surface border border-white/5 hover:bg-background/60 transition-all duration-300 cursor-pointer`}
                   >
                     <span className="text-2xl">{uni.emoji}</span>
                     <span className="text-xs font-bold text-foreground/80">{uni.name}</span>

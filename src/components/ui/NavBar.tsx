@@ -15,11 +15,8 @@ export default function NavBar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? "glass-card py-3 shadow-lg backdrop-blur-xl bg-white/10 dark:bg-black/10 border-b border-white/10"
-          : "bg-transparent py-5"
-      }`}
+      // className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "glass-card py-3 shadow-lg backdrop-blur-xl bg-white/10 dark:bg-black/10 border-b border-white/10" : "bg-transparent py-5"}`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "py-3 bg-background/80 backdrop-blur-xl border-b border-foreground/10" : "bg-transparent py-5"}`}
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 group">

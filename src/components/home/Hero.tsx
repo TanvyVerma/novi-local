@@ -41,8 +41,12 @@ export default function Hero() {
     >
       <BackgroundParticles />
       
-      <div className="absolute top-[-300px] left-[-300px] w-[600px] h-[600px] bg-purple-500/20 rounded-full blur-3xl animate-pulse" />
-      <div className="absolute bottom-[-200px] right-[-200px] w-[500px] h-[500px] bg-blue-500/20 rounded-full blur-3xl animate-pulse delay-1000" />
+      {/* <div className="absolute top-[-300px] left-[-300px] w-[600px] h-[600px] bg-purple-500/20 rounded-full blur-3xl animate-pulse" />
+      <div className="absolute bottom-[-200px] right-[-200px] w-[500px] h-[500px] bg-blue-500/20 rounded-full blur-3xl animate-pulse delay-1000" /> */}
+      
+
+      <div className="absolute top-[-300px] left-[-300px] w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl animate-pulse" />
+      <div className="absolute bottom-[-200px] right-[-200px] w-[500px] h-[500px] bg-accent/5 rounded-full blur-3xl animate-pulse delay-1000" />
       
       <div className="max-w-7xl mx-auto px-6 pt-20 lg:pt-28 pb-12 lg:pb-16 w-full relative z-10">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-8 items-center">

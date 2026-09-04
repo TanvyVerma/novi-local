@@ -58,7 +58,7 @@ function ParentHubCard({ children }: { children: React.ReactNode }) {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-      className="relative rounded-3xl border border-white/10 bg-surface/40 backdrop-blur-2xl p-6 sm:p-8 shadow-2xl transition-shadow duration-500"
+      className="relative rounded-3xl border border-foreground/10 bg-surface/40 backdrop-blur-2xl p-6 sm:p-8 shadow-2xl transition-shadow duration-500"
     >
       <div style={{ transform: "translateZ(20px)" }}>{children}</div>
     </motion.div>
@@ -119,7 +119,7 @@ export default function ForParents() {
             className="lg:col-span-5"
           >
             <ParentHubCard>
-              <div className="flex items-center justify-between pb-6 border-b border-white/10 mb-6">
+              <div className="flex items-center justify-between pb-6 border-b border-foreground/10 mb-6">
                 <div className="flex items-center gap-3.5">
                   <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 text-white flex items-center justify-center font-bold text-lg shadow-lg shadow-indigo-500/25">
                     R
@@ -135,7 +135,7 @@ export default function ForParents() {
               </div>
               <div className="grid grid-cols-2 gap-4 mb-6">
                 <div className="p-4 rounded-2xl bg-background/30 border border-white/5 space-y-2">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-foreground/40">Profile Strength</span>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-foreground/60">Profile Strength</span>
                   <div className="flex items-baseline justify-between">
                     <span className="text-2xl font-bold text-indigo-400">78%</span>
                     <span className="text-[10px] text-emerald-400 font-semibold">+4% this wk</span>
@@ -151,7 +151,7 @@ export default function ForParents() {
                 </div>
 
                 <div className="p-4 rounded-2xl bg-background/30 border border-white/5 space-y-2">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-foreground/40">Uni Readiness</span>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-foreground/60">Uni Readiness</span>
                   <div className="flex items-baseline justify-between">
                     <span className="text-2xl font-bold text-cyan-400">71%</span>
                     <span className="text-[10px] text-cyan-400 font-semibold">On Schedule</span>
@@ -176,7 +176,7 @@ export default function ForParents() {
                     className={`cursor-pointer flex items-center justify-between p-3.5 rounded-xl border transition-all duration-200 ${
                       activeFocus === idx
                         ? "bg-indigo-500/10 border-indigo-500/40"
-                        : "bg-background/20 border-white/5 hover:border-white/10"
+                        : "bg-background/20 border-white/5 hover:border-foreground/10"
                     }`}
                   >
                     <div className="flex items-center gap-3">
@@ -187,7 +187,7 @@ export default function ForParents() {
                       />
                       <span className="text-xs font-medium">{goal.title}</span>
                     </div>
-                    <span className="text-[10px] font-mono font-semibold text-foreground/40 px-2 py-0.5 rounded bg-white/5">
+                    <span className="text-[10px] font-mono font-semibold text-foreground/60 px-2 py-0.5 rounded bg-white/5">
                       {goal.category}
                     </span>
                   </div>
@@ -232,7 +232,7 @@ export default function ForParents() {
                       transition={{ type: "spring", stiffness: 200, damping: 25 }}
                       style={{ transformStyle: "preserve-3d" }}
                     >
-                      <div className="relative rounded-3xl border border-black/5 dark:border-white/10 bg-background/80 backdrop-blur-xl p-8 shadow-2xl overflow-hidden">
+                      <div className="relative rounded-3xl border border-black/5 dark:border-foreground/10 bg-background/80 backdrop-blur-xl p-8 shadow-2xl overflow-hidden">
                         <div className={`absolute top-0 left-1/2 -translate-x-1/2 w-2/3 h-32 bg-gradient-to-b ${isActive ? 'from-indigo-500/20' : 'from-indigo-500/5'} to-transparent blur-2xl pointer-events-none transition-all duration-700`} />
                         
                         <span className="text-6xl font-serif text-indigo-400/30 leading-none mb-4 block">“</span>

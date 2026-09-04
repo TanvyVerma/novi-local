@@ -57,7 +57,7 @@
 //       onMouseMove={handleMouseMove}
 //       onMouseLeave={reset}
 //       style={{ rotateX, rotateY, transformStyle: "preserve-3d", perspective: 1000 }}
-//       className={`group relative rounded-3xl border border-black/5 dark:border-white/10 bg-background/80 backdrop-blur-xl p-5 sm:p-8 transition-shadow duration-500 ${className}`}
+//       className={`group relative rounded-3xl border border-black/5 dark:border-foreground/10 bg-background/80 backdrop-blur-xl p-5 sm:p-8 transition-shadow duration-500 ${className}`}
 //     >
 //       <div 
 //         className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
@@ -118,13 +118,13 @@
 //               </div>
 
 //               {/* Horizontal Sliding Tabs (Fully scrollable on mobile) */}
-//               <div className="flex flex-nowrap overflow-x-auto gap-4 sm:gap-6 mb-6 pb-4 border-b border-black/5 dark:border-white/10 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+//               <div className="flex flex-nowrap overflow-x-auto gap-4 sm:gap-6 mb-6 pb-4 border-b border-black/5 dark:border-foreground/10 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
 //                 {tabs.map((tab, i) => (
 //                   <div key={tab.label} className="flex flex-col items-center gap-2 group/tab cursor-pointer min-w-[60px] shrink-0">
 //                     <div className="w-10 h-10 rounded-2xl bg-background/50 border border-primary/10 flex items-center justify-center text-primary text-lg group-hover/tab:bg-primary group-hover/tab:text-white group-hover/tab:scale-125 transition-all duration-300">
 //                       <tab.icon className="w-5 h-5" />
 //                     </div>
-//                     <span className="text-[10px] text-center font-medium text-foreground/40 group-hover/tab:text-primary transition-colors">
+//                     <span className="text-[10px] text-center font-medium text-foreground/60 group-hover/tab:text-primary transition-colors">
 //                       {tab.label}
 //                     </span>
 //                   </div>
@@ -144,7 +144,7 @@
 //                         <span className="w-2 h-2 rounded-full bg-primary"></span>
 //                         <span className="text-sm font-medium text-foreground/80">{item.text}</span>
 //                       </div>
-//                       <span className="text-xs font-mono text-foreground/40">{item.date}</span>
+//                       <span className="text-xs font-mono text-foreground/60">{item.date}</span>
 //                     </motion.li>
 //                   ))}
 //                 </ul>
@@ -338,7 +338,7 @@ function TiltCard({ children, className = "", glowColor = "rgba(168, 85, 247, 0.
       onMouseMove={handleMouseMove}
       onMouseLeave={reset}
       style={{ rotateX, rotateY, transformStyle: "preserve-3d", perspective: 1000 }}
-      className={`group relative rounded-3xl border border-black/5 dark:border-white/10 bg-background/70 backdrop-blur-xl p-6 transition-shadow duration-500 overflow-hidden ${className}`}
+      className={`group relative rounded-3xl border border-black/5 dark:border-foreground/10 bg-background/70 backdrop-blur-xl p-6 transition-shadow duration-500 overflow-hidden ${className}`}
     >
       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" style={{ boxShadow: `0 0 50px -12px ${glowColor}` }} />
       <div style={{ transform: "translateZ(20px)" }}>{children}</div>
@@ -382,13 +382,13 @@ export default function ForStudents() {
               <div className="flex items-center justify-between mb-6">
                 <div>
                   <h3 className="text-xl font-bold">Career Passport</h3>
-                  <span className="text-xs text-foreground/40 font-medium">Your milestones unlocked</span>
+                  <span className="text-xs text-foreground/60 font-medium">Your milestones unlocked</span>
                 </div>
                 <span className="text-xs font-bold bg-primary/10 text-primary px-3 py-1 rounded-full">Level 2</span>
               </div>
               <div className="flex gap-3 mb-6 overflow-x-auto pb-2 [scrollbar-width:none]">
                 {tabs.map((tab) => (
-                  <div key={tab.label} className="flex items-center gap-2 px-3 py-2 rounded-xl bg-background/40 border border-white/5 cursor-pointer hover:border-primary/30 transition-all group/tab">
+                  <div key={tab.label} className="flex items-center gap-2 px-3 py-2 rounded-xl bg-surface border border-white/5 cursor-pointer hover:border-primary/30 transition-all group/tab">
                     <tab.icon className="w-4 h-4 text-primary group-hover/tab:scale-110 transition-transform" />
                     <span className="text-xs font-medium">{tab.label}</span>
                   </div>
@@ -408,7 +408,7 @@ export default function ForStudents() {
                       <span className="w-2 h-2 rounded-full bg-primary group-hover/item:animate-pulse"></span>
                       <span className="text-sm font-medium">{item.text}</span>
                     </div>
-                    <span className="text-xs font-mono text-foreground/40">{item.date}</span>
+                    <span className="text-xs font-mono text-foreground/60">{item.date}</span>
                   </motion.li>
                 ))}
               </ul>
@@ -426,7 +426,7 @@ export default function ForStudents() {
             className="md:col-span-2"
           >
             <TiltCard className="h-full flex flex-col items-center justify-center text-center" glowColor="rgba(59, 130, 246, 0.3)">
-              <span className="text-xs font-bold uppercase tracking-widest text-foreground/40 mb-4">Profile Strength</span>
+              <span className="text-xs font-bold uppercase tracking-widest text-foreground/60 mb-4">Profile Strength</span>
               
               <div className="relative w-32 h-32 mb-4">
                 <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
