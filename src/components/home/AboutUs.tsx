@@ -64,7 +64,7 @@ export default function AboutUs() {
           </div>
         </div>
 
-        <footer className="mt-8 pt-6 border-t border-black/10 dark:border-foreground/10">
+        {/* <footer className="mt-8 pt-6 border-t border-black/10 dark:border-foreground/10">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
                 
             <div className="col-span-2">
@@ -157,7 +157,8 @@ export default function AboutUs() {
           <div className="mt-8 pt-6 border-t border-black/10 dark:border-foreground/10 text-center text-sm text-foreground/60">
             © 2024 Novi. All rights reserved.
           </div>
-        </footer>
+        </footer> */}
+        
       </div>
     </section>
   );

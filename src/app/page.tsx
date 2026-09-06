@@ -6,6 +6,7 @@ import ForStudents from "@/components/home/ForStudents";
 import ForParents from "@/components/home/ForParents";
 import Universities from "@/components/home/Universities";
 import AboutUs from "@/components/home/AboutUs";
+import Footer from "@/components/ui/Footer";
 
 
 export default function Home() {
@@ -22,6 +23,7 @@ export default function Home() {
         <Universities />
         <AboutUs />
       </main>
+      <Footer />
     </div>
   )
 }
