@@ -41,6 +41,7 @@ export default function ParentHero() {
               <span className="text-sm text-foreground/60 flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-500" /> Support without pressure</span>
             </div>
           </div>
+          
           <div className="relative w-full h-[500px] flex justify-end items-end">
             <div className="relative z-10 w-[70%] max-w-[480px] bg-surface dark:bg-[#1a183c] border border-foreground/10 rounded-3xl p-6 shadow-2xl mr-[-60px] mb-12">
               
@@ -92,6 +93,7 @@ export default function ParentHero() {
                 </ul>
               </div>
             </div>
+            
             <div className="relative z-20 w-[65%] h-[450px] ml-[-40px] flex justify-end">
               <Image 
                 src="/parents.png" 
