@@ -35,8 +35,10 @@ export default function CTABanner({
   features = ["Free to get started", "Built around your goals", "Stay informed without pressure"],
 }: CTABannerProps) {
   return (
-    <section className="relative pt-8 pb-4 px-6 lg:px-12 overflow-hidden">
-      <div className="max-w-7xl mx-auto">
+    <section className="relative pt-4 pb-4 px-6 lg:px-12 overflow-hidden">
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/[0.06] rounded-full blur-[120px] pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -54,7 +56,7 @@ export default function CTABanner({
           <Sparkle className="absolute bottom-16 right-[18%] w-5 h-5 text-accent/50 animate-float-slow" />
           <Sparkle className="absolute top-24 right-[8%] w-3 h-3 text-primary/60 animate-float" />
 
-          <div className="grid lg:grid-cols-12 gap-8 items-center p-6 sm:p-12 relative z-10">
+          <div className="grid lg:grid-cols-12 gap-8 items-center p-6 sm:p-10 relative z-10">
             <div className="lg:col-span-5 relative flex justify-center lg:justify-start">
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] h-[340px] rounded-full border border-primary/20 animate-spin-slow">
                 <div className="absolute -top-1 left-1/2 w-3 h-3 rounded-full bg-primary/60" />

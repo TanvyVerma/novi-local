@@ -53,8 +53,6 @@ export default function Footer() {
               </a>
             </div>
           </div>
-
-          {/* For Students */}
           <div>
             <h4 className="text-sm font-semibold mb-4 text-foreground">For Students</h4>
             <ul className="space-y-2 text-sm text-foreground/50">
@@ -65,8 +63,6 @@ export default function Footer() {
               <li><Link href="/coming-soon" className="hover:text-primary transition-colors">Career Passport</Link></li>
             </ul>
           </div>
-
-          {/* For Parents */}
           <div>
             <h4 className="text-sm font-semibold mb-4 text-foreground">For Parents</h4>
             <ul className="space-y-2 text-sm text-foreground/50">
@@ -76,8 +72,6 @@ export default function Footer() {
               <li><Link href="/for-parents" className="hover:text-primary transition-colors">Guides</Link></li>
             </ul>
           </div>
-
-          {/* Company */}
           <div>
             <h4 className="text-sm font-semibold mb-4 text-foreground">Company</h4>
             <ul className="space-y-2 text-sm text-foreground/50">
@@ -87,8 +81,6 @@ export default function Footer() {
               <li><Link href="/coming-soon" className="hover:text-primary transition-colors">Contact Us</Link></li>
             </ul>
           </div>
-
-          {/* Legal */}
           <div>
             <h4 className="text-sm font-semibold mb-4 text-foreground">Legal</h4>
             <ul className="space-y-2 text-sm text-foreground/50">
@@ -98,8 +90,6 @@ export default function Footer() {
             </ul>
           </div>
         </div>
-
-        {/* Newsletter + Copyright */}
         <div className="mt-10 pt-6 border-t border-foreground/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
           <div className="w-full max-w-xs space-y-2">
             <h4 className="text-xs font-semibold text-foreground">Stay updated with Novi</h4>
