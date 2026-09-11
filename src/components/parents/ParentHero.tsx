@@ -42,7 +42,7 @@ export default function ParentHero() {
             </div>
           </div>
           
-          <div className="relative w-full h-[500px] flex justify-end items-end">
+          <div className="relative w-full h-[500px] flex justify-center items-end">
             <div className="relative z-10 w-[70%] max-w-[480px] bg-surface dark:bg-[#1a183c] border border-foreground/10 rounded-3xl p-6 shadow-2xl mr-[-60px] mb-12">
               
               <div className="flex items-center justify-between mb-6">
@@ -94,7 +94,7 @@ export default function ParentHero() {
               </div>
             </div>
             
-            <div className="relative z-20 w-[65%] h-[450px] ml-[-40px] flex justify-end">
+            {/* <div className="relative z-20 w-[65%] h-[450px] ml-[-40px] flex justify-end">
               <Image 
                 src="/parents.png" 
                 alt="Parents looking at tablet" 
@@ -102,7 +102,7 @@ export default function ParentHero() {
                 priority 
                 className="object-contain object-bottom drop-shadow-2xl"
               />
-            </div>
+            </div> */}
 
             <motion.div 
               animate={{ y: [0, -10, 0] }} 
