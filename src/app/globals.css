@@ -157,3 +157,24 @@ body {
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
   color: #ededf5;
 }
+
+
+/* Wider container helper (optional) */
+@media (min-width: 1536px) {
+  .container-max {
+    max-width: 1500px;
+  }
+}
+
+/* Section that fills full width but centers content */
+.section-full {
+  width: 100%;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+@media (min-width: 1024px) {
+  .section-full {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+}
