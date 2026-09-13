@@ -83,193 +83,419 @@ const possibilities = [
   },
 ];
 
+
+
 function StudentsChallengeGrid() {
-  const [active, setActive] = useState(0);
+  const [hovered, setHovered] = useState<number | null>(null);
+  const [clicked, setClicked] = useState<number | null>(null);
+
+  const transformations = [
+    {
+      index: "01",
+      doubt: "Not sure what career you want?",
+      pillar: "Discover",
+      desc: "Explore careers, industries and paths — see what actually fits.",
+      chips: ["Interest Mapping", "Career DNA"],
+      color: "#a855f7",
+    },
+    {
+      index: "02",
+      doubt: "Don't know which subjects to choose?",
+      pillar: "Plan",
+      desc: "Turn interests into a clear roadmap with milestones.",
+      chips: ["Subject Choices", "Skill Roadmap"],
+      color: "#06b6d4",
+    },
+    {
+      index: "03",
+      doubt: "Wondering which university is right for you?",
+      pillar: "Build",
+      desc: "Ship real projects, grow a profile that stands out.",
+      chips: ["Projects", "Achievements"],
+      color: "#f59e0b",
+    },
+    {
+      index: "04",
+      doubt: "Don't know how to build a strong profile?",
+      pillar: "Explore",
+      desc: "Discover programs and campuses that fit your ambition.",
+      chips: ["University Explorer", "Fit Score"],
+      color: "#ec4899",
+    },
+  ];
 
   return (
-    <section className="pt-12 pb-8 px-6 lg:px-12">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid lg:grid-cols-3 gap-12 items-start">
-          {/* LEFT */}
-          <div className="lg:col-span-1">
-            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-widest mb-6">
-              The Student Challenge
+    <section className="relative py-14 px-6 lg:px-12 overflow-hidden">
+      <div className="absolute top-1/3 -left-40 w-[420px] h-[420px] bg-primary/[0.06] rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[360px] h-[360px] bg-accent/[0.04] rounded-full blur-3xl pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto relative">
+        {/* ==================== HEADER ==================== */}
+        <div className="max-w-3xl mb-10 space-y-3">
+          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-widest">
+            <Sparkles className="w-3.5 h-3.5" />
+            The Student Challenge
+          </span>
+          <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-extrabold text-foreground leading-[1.12]">
+            You don&apos;t need all the answers —{" "}
+            <span className="bg-gradient-to-r from-primary via-accent to-cyan-400 bg-clip-text text-transparent">
+              just the right questions.
             </span>
-            <h2 className="text-4xl font-bold text-foreground mb-6 leading-tight">
-              You don&apos;t need
-              <br /> all the answers.
-            </h2>
-            <p className="text-foreground/50 mb-8">
-              As a student, you&apos;re wondering...
-            </p>
-            <ul className="space-y-4">
-              {[
-                "Not sure what career you want?",
-                "Don't know which subjects to choose?",
-                "Wondering which university is right for you?",
-                "Don't know how to build a strong profile?",
-              ].map((item, i) => (
-                <li
+          </h2>
+          <p className="text-sm sm:text-base text-foreground/60">
+            Four doubts every student faces. Four pillars that resolve them.
+          </p>
+        </div>
+
+        {/* ==================== ROWS ==================== */}
+        <div className="space-y-3">
+          {transformations.map((item, i) => {
+            const isHovered = hovered === i;
+            const isClicked = clicked === i;
+            const isActive = isHovered || isClicked;
+
+            return (
+              // <motion.div
+              //   key={i}
+              //   initial={{ opacity: 0, y: 8 }}
+              //   whileInView={{ opacity: 1, y: 0 }}
+              //   viewport={{ once: true, amount: 0.2 }}
+              //   transition={{ duration: 0.35, delay: i * 0.06 }}
+              //   onMouseEnter={() => setHovered(i)}
+              //   onMouseLeave={() => setHovered(null)}
+              //   onClick={() => setClicked(isClicked ? null : i)}
+              //   className="grid md:grid-cols-12 items-stretch gap-3 group cursor-pointer"
+              // >
+              //   {/* ============ LEFT — Doubt ============ */}
+              //   <div
+              //     className="md:col-span-5 relative rounded-xl border backdrop-blur-sm overflow-hidden transition-all duration-300"
+              //     style={{
+              //       borderColor: isActive ? item.color : `${item.color}30`,
+              //       backgroundColor: isActive
+              //         ? `${item.color}10`
+              //         : `${item.color}05`,
+              //     }}
+              //   >
+              //     {/* Left accent bar — appears only on hover/click */}
+              //     <motion.div
+              //       className="absolute left-0 top-0 bottom-0 w-[3px] rounded-r-full"
+              //       style={{ backgroundColor: item.color }}
+              //       initial={{ scaleY: 0 }}
+              //       animate={{ scaleY: isActive ? 1 : 0 }}
+              //       transition={{ duration: 0.25, ease: "easeOut" }}
+              //     />
+
+              //     <div className="flex items-center gap-3 px-4 py-3">
+              //       {/* Index */}
+              //       <span
+              //         className="text-xl font-black leading-none tracking-tight shrink-0 transition-colors duration-300"
+              //         style={{
+              //           color: isActive ? item.color : `${item.color}99`,
+              //         }}
+              //       >
+              //         {item.index}
+              //       </span>
+
+              //       {/* ? badge */}
+              //       <div
+              //         className="shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-[12px] font-black transition-all duration-300"
+              //         style={{
+              //           backgroundColor: isActive
+              //             ? `${item.color}25`
+              //             : `${item.color}10`,
+              //           color: isActive ? item.color : `${item.color}cc`,
+              //           border: `1px solid ${
+              //             isActive ? `${item.color}70` : `${item.color}30`
+              //           }`,
+              //         }}
+              //       >
+              //         ?
+              //       </div>
+
+              //       {/* Doubt text */}
+              //       <p
+              //         className={`text-[13px] sm:text-sm leading-snug font-medium transition-colors duration-300 ${
+              //           isActive ? "text-foreground/95" : "text-foreground/70"
+              //         }`}
+              //       >
+              //         {item.doubt}
+              //       </p>
+              //     </div>
+              //   </div>
+
+              //   {/* ============ MIDDLE — Connector ============ */}
+              //   <div className="hidden md:flex md:col-span-1 items-center justify-center relative">
+              //     <motion.div
+              //       className="h-[2px] w-full rounded-full"
+              //       style={{
+              //         background: `linear-gradient(to right, ${item.color}80, transparent)`,
+              //       }}
+              //       animate={{ opacity: isActive ? 1 : 0.5 }}
+              //       transition={{ duration: 0.25 }}
+              //     />
+
+              //     {/* Arrow — outline only */}
+              //     <motion.div
+              //       className="absolute right-0 flex items-center justify-center w-6 h-6 rounded-full transition-all duration-300"
+              //       style={{
+              //         border: `1.5px solid ${
+              //           isActive ? item.color : `${item.color}50`
+              //         }`,
+              //         backgroundColor: isActive
+              //           ? `${item.color}15`
+              //           : "transparent",
+              //       }}
+              //       animate={{
+              //         scale: isActive ? 1.15 : 1,
+              //         boxShadow: isActive
+              //           ? `0 0 10px ${item.color}50`
+              //           : "none",
+              //       }}
+              //       transition={{ duration: 0.25 }}
+              //     >
+              //       <ChevronRight
+              //         className="w-3.5 h-3.5 transition-colors duration-300"
+              //         style={{
+              //           color: isActive ? item.color : `${item.color}cc`,
+              //         }}
+              //         strokeWidth={2.75}
+              //       />
+              //     </motion.div>
+              //   </div>
+
+              //   {/* ============ RIGHT — Answer ============ */}
+              //   <div
+              //     className="md:col-span-6 relative rounded-xl border overflow-hidden transition-all duration-300"
+              //     style={{
+              //       backgroundColor: isActive
+              //         ? `${item.color}10`
+              //         : "rgba(255,255,255,0.02)",
+              //       borderColor: isActive ? item.color : `${item.color}35`,
+              //       boxShadow: isActive ? `0 0 24px ${item.color}25` : "none",
+              //     }}
+              //   >
+              //     <div className="px-4 py-3">
+              //       {/* Header row — pillar + line */}
+              //       <div className="flex items-center gap-3 mb-1.5">
+              //         <h3
+              //           className="text-base font-black tracking-tight shrink-0 transition-colors duration-300"
+              //           style={{
+              //             color: isActive ? item.color : `${item.color}cc`,
+              //           }}
+              //         >
+              //           {item.pillar}
+              //         </h3>
+              //         <div
+              //           className="h-[1.5px] flex-1 rounded-full transition-opacity duration-300"
+              //           style={{
+              //             background: `linear-gradient(to right, ${item.color}80, transparent)`,
+              //             opacity: isActive ? 1 : 0.4,
+              //           }}
+              //         />
+              //       </div>
+
+              //       {/* Description */}
+              //       <p className="text-[12px] text-foreground/65 leading-snug mb-2">
+              //         {item.desc}
+              //       </p>
+
+              //       {/* Chips */}
+              //       <div className="flex flex-wrap gap-1.5">
+              //         {item.chips.map((chip) => (
+              //           <span
+              //             key={chip}
+              //             className="text-[10px] px-2 py-0.5 rounded-full border font-semibold transition-all duration-300"
+              //             style={{
+              //               backgroundColor: isActive
+              //                 ? `${item.color}15`
+              //                 : "rgba(255,255,255,0.03)",
+              //               borderColor: isActive
+              //                 ? `${item.color}50`
+              //                 : "rgba(255,255,255,0.08)",
+              //               color: isActive
+              //                 ? item.color
+              //                 : "rgba(255,255,255,0.5)",
+              //             }}
+              //           >
+              //             {chip}
+              //           </span>
+              //         ))}
+              //       </div>
+              //     </div>
+              //   </div>
+              // </motion.div>
+
+              <motion.div
                   key={i}
-                  className="flex items-center gap-3 text-lg text-foreground/70"
+                  initial={{ opacity: 0, y: 8 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.35, delay: i * 0.06 }}
+                  onMouseEnter={() => setHovered(i)}
+                  onMouseLeave={() => setHovered(null)}
+                  onClick={() => setClicked(isClicked ? null : i)}
+                  className="grid md:grid-cols-12 items-center gap-3 group cursor-pointer"
                 >
-                  <CheckCircle2 className="w-6 h-6 text-primary shrink-0" />
-                  {item}
-                </li>
-              ))}
-            </ul>
-            <p className="mt-8 text-primary font-semibold text-lg">
-              That&apos;s exactly why Novi exists. ✨
-            </p>
-          </div>
-
-          {/* RIGHT — 4 expandable tabs */}
-          <div className="lg:col-span-2">
-            <div className="flex items-end justify-between gap-4 mb-8">
-              <h2 className="text-4xl font-bold text-foreground">
-                Explore your possibilities.
-              </h2>
-              <span className="hidden sm:inline-flex items-center gap-1.5 text-xs font-semibold text-foreground/50">
-                4 pillars <ArrowRight className="w-3.5 h-3.5" />
-              </span>
-            </div>
-
-            <div className="flex flex-col md:flex-row gap-4 md:items-stretch">
-              {possibilities.map((section, index) => {
-                const isActive = active === index;
-                const Icon = section.icon;
-
-                return (
-                  <motion.button
-                    key={section.title}
-                    type="button"
-                    onClick={() => setActive(index)}
-                    className={`group relative overflow-hidden text-left rounded-3xl border transition-all duration-500 flex flex-col w-full md:w-auto
-                      ${
-                        isActive
-                          ? `md:flex-[1.5] bg-background/90 ${section.activeBorder} shadow-2xl`
-                          : `md:flex-1 bg-background/40 ${section.inactiveBorder} opacity-80 hover:opacity-100`
-                      }`}
+                  {/* ============ LEFT — Doubt (single line) ============ */}
+                  <div
+                    className="md:col-span-5 relative rounded-xl border backdrop-blur-sm overflow-hidden transition-all duration-300"
+                    style={{
+                      borderColor: isActive ? item.color : `${item.color}30`,
+                      backgroundColor: isActive ? `${item.color}10` : `${item.color}05`,
+                    }}
                   >
-                    {isActive && (
-                      <div
-                        className="absolute top-0 right-0 w-40 h-40 rounded-full blur-3xl opacity-20 pointer-events-none"
-                        style={{ backgroundColor: section.glow }}
-                      />
-                    )}
+                    {/* Left accent bar — appears only on hover/click */}
+                    <motion.div
+                      className="absolute left-0 top-0 bottom-0 w-[3px] rounded-r-full"
+                      style={{ backgroundColor: item.color }}
+                      initial={{ scaleY: 0 }}
+                      animate={{ scaleY: isActive ? 1 : 0 }}
+                      transition={{ duration: 0.25, ease: "easeOut" }}
+                    />
 
-                    <div className="flex items-center gap-4 p-5 pb-0 relative z-10">
-                      <div
-                        className={`w-12 h-12 rounded-2xl flex items-center justify-center font-bold shrink-0 transition-all duration-500 ${
-                          isActive
-                            ? `bg-gradient-to-br ${section.color} text-white`
-                            : `bg-background border border-foreground/10 ${section.color}`
-                        }`}
+                    <div className="flex items-center gap-2.5 px-3.5 py-2.5">
+                      <span
+                        className="text-base font-black leading-none tracking-tight shrink-0 transition-colors duration-300"
+                        style={{
+                          color: isActive ? item.color : `${item.color}99`,
+                        }}
                       >
-                        {section.grade}
+                        {item.index}
+                      </span>
+                      
+                      <div
+                        className="shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-black transition-all duration-300"
+                        style={{
+                          backgroundColor: isActive ? `${item.color}25` : `${item.color}10`,
+                          color: isActive ? item.color : `${item.color}cc`,
+                          border: `1px solid ${
+                            isActive ? `${item.color}70` : `${item.color}30`
+                          }`,
+                        }}
+                      >
+                        ?
                       </div>
-                      <div className="min-w-0">
-                        <span
-                          className={`text-[10px] uppercase tracking-[0.16em] font-bold ${
-                            isActive ? "text-foreground/50" : "text-foreground/30"
-                          }`}
-                        >
-                          {section.label}
-                        </span>
-                        <h3
-                          className={`text-xl font-bold truncate ${
-                            isActive
-                              ? "text-foreground"
-                              : "text-foreground/80 group-hover:text-foreground"
-                          } transition-colors`}
-                        >
-                          {section.title}
-                        </h3>
-                      </div>
-                    </div>
-
-                    <div className="p-5 relative z-10">
+                      
                       <p
-                        className={`text-sm leading-relaxed ${
-                          isActive ? "text-foreground/70" : "text-foreground/45"
+                        className={`text-[13px] leading-tight font-medium transition-colors duration-300 truncate ${
+                          isActive ? "text-foreground/95" : "text-foreground/70"
                         }`}
                       >
-                        {section.short}
+                        {item.doubt}
                       </p>
+                    </div>
+                  </div>
+                      
+                  {/* ============ MIDDLE — Connector ============ */}
+                  <div className="hidden md:flex md:col-span-1 items-center justify-center relative">
+                    <motion.div
+                      className="h-[2px] w-full rounded-full"
+                      style={{
+                        background: `linear-gradient(to right, ${item.color}80, transparent)`,
+                      }}
+                      animate={{ opacity: isActive ? 1 : 0.5 }}
+                      transition={{ duration: 0.25 }}
+                    />
 
-                      <div
-                        className={`mt-4 grid grid-cols-2 gap-2 transition-opacity duration-300 ${
-                          isActive ? "opacity-100" : "opacity-50"
-                        }`}
+                    <motion.div
+                      className="absolute right-0 flex items-center justify-center w-5 h-5 rounded-full transition-all duration-300"
+                      style={{
+                        border: `1.5px solid ${
+                          isActive ? item.color : `${item.color}50`
+                        }`,
+                        backgroundColor: isActive ? `${item.color}15` : "transparent",
+                      }}
+                      animate={{
+                        scale: isActive ? 1.15 : 1,
+                        boxShadow: isActive ? `0 0 10px ${item.color}50` : "none",
+                      }}
+                      transition={{ duration: 0.25 }}
+                    >
+                      <ChevronRight
+                        className="w-3 h-3 transition-colors duration-300"
+                        style={{
+                          color: isActive ? item.color : `${item.color}cc`,
+                        }}
+                        strokeWidth={2.75}
+                      />
+                    </motion.div>
+                  </div>
+                      
+                  {/* ============ RIGHT — Answer (single line) ============ */}
+                  <div
+                    className="md:col-span-6 relative rounded-xl border overflow-hidden transition-all duration-300"
+                    style={{
+                      backgroundColor: isActive ? `${item.color}10` : "rgba(255,255,255,0.02)",
+                      borderColor: isActive ? item.color : `${item.color}40`,
+                      boxShadow: isActive ? `0 0 24px ${item.color}30` : "none",
+                    }}
+                  >
+                    <div className="flex items-center gap-2.5 px-3.5 py-2.5">
+                      <h3
+                        className="text-sm font-black tracking-tight shrink-0 transition-colors duration-300"
+                        style={{ color: isActive ? item.color : `${item.color}cc` }}
                       >
-                        {section.items.map((item, i) => (
-                          <div
-                            key={i}
-                            className="flex items-center gap-2 text-xs font-medium text-foreground/60"
+                        {item.pillar}
+                      </h3>
+                  
+                      <div
+                        className="h-[1.5px] w-6 rounded-full shrink-0 transition-opacity duration-300"
+                        style={{
+                          background: `linear-gradient(to right, ${item.color}80, transparent)`,
+                          opacity: isActive ? 1 : 0.4,
+                        }}
+                      />
+
+                      <p className="text-[11px] text-foreground/55 leading-tight truncate flex-1 transition-colors duration-300">
+                        {item.desc}
+                      </p>
+                      
+                      <div className="flex gap-1 shrink-0">
+                        {item.chips.slice(0, 2).map((chip) => (
+                          <span
+                            key={chip}
+                            className="text-[9px] px-1.5 py-0.5 rounded-full border font-semibold transition-all duration-300 whitespace-nowrap"
+                            style={{
+                              backgroundColor: isActive
+                                ? `${item.color}15`
+                                : "rgba(255,255,255,0.03)",
+                              borderColor: isActive
+                                ? `${item.color}50`
+                                : "rgba(255,255,255,0.08)",
+                              color: isActive ? item.color : "rgba(255,255,255,0.5)",
+                            }}
                           >
-                            <CheckCircle2
-                              className={`w-4 h-4 shrink-0 ${section.color}`}
-                            />
-                            {item}
-                          </div>
+                            {chip}
+                          </span>
                         ))}
                       </div>
-
-                      <AnimatePresence>
-                        {isActive && (
-                          <motion.div
-                            initial={{ opacity: 0, height: 0, y: 10 }}
-                            animate={{ opacity: 1, height: "auto", y: 0 }}
-                            exit={{ opacity: 0, height: 0, y: 10 }}
-                            transition={{
-                              duration: 0.5,
-                              ease: [0.22, 1, 0.36, 1],
-                            }}
-                            className="overflow-hidden"
-                          >
-                            <p className="mt-4 text-sm leading-relaxed text-foreground/60">
-                              {section.desc}
-                            </p>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-
-                      <div
-                        className={`mt-5 text-xs font-semibold flex items-center gap-1 transition-all duration-300 ${
-                          isActive
-                            ? section.color
-                            : "text-foreground/30 group-hover:text-foreground"
-                        }`}
-                      >
-                        {isActive ? (
-                          <motion.span
-                            initial={{ opacity: 0, x: -5 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            className="flex items-center gap-1"
-                          >
-                            <span
-                              className={`w-1.5 h-1.5 rounded-full ${section.color} animate-pulse`}
-                            />
-                            Viewing this stage
-                          </motion.span>
-                        ) : (
-                          "View stage"
-                        )}
-                        <motion.span animate={{ x: isActive ? 3 : 0 }}>
-                          →
-                        </motion.span>
-                      </div>
                     </div>
-                  </motion.button>
-                );
-              })}
-            </div>
-          </div>
+                  </div>
+                </motion.div>
+            );
+          })}
         </div>
+
+        {/* ==================== FOOTER ==================== */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4, delay: 0.3 }}
+          className="mt-8 flex items-center justify-start gap-3"
+        >
+          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg shadow-primary/30">
+            <Sparkles className="w-4 h-4 text-white" />
+          </div>
+          <p className="text-sm font-bold text-gradient italic">
+            That&apos;s exactly why Novi exists.
+          </p>
+        </motion.div>
       </div>
     </section>
   );
 }
+
 
 /* ============================================================
    2. CAREER EXPLORER
@@ -297,197 +523,366 @@ const careersData: CareerItem[] = [
 const popularSearches = ["Product Manager", "UX Designer", "Medicine", "Engineering", "Psychology"];
 
 function StudentsCareerExplorer() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [activeChip, setActiveChip] = useState<string | null>(null);
+  const careersData = [
+    {
+      num: "01",
+      id: "pm",
+      title: "Product Manager",
+      match: 91,
+      level: "Top Match",
+      tags: ["Strategy", "Leadership", "Problem Solving"],
+      initial: "P",
+      color: "#a855f7",
+      bar: "from-purple-500 to-pink-500",
+    },
+    {
+      num: "02",
+      id: "ux",
+      title: "UX Designer",
+      match: 87,
+      level: "Strong fit",
+      tags: ["Creativity", "Design", "Problem Solving"],
+      initial: "U",
+      color: "#ec4899",
+      bar: "from-pink-500 to-rose-500",
+    },
+    {
+      num: "03",
+      id: "ent",
+      title: "Entrepreneur",
+      match: 85,
+      level: "Strong fit",
+      tags: ["Leadership", "Business"],
+      initial: "E",
+      color: "#f59e0b",
+      bar: "from-amber-500 to-orange-500",
+    },
+    {
+      num: "04",
+      id: "ds",
+      title: "Data Scientist",
+      match: 82,
+      level: "Great fit",
+      tags: ["Analytics", "Building", "Technical"],
+      initial: "D",
+      color: "#06b6d4",
+      bar: "from-cyan-500 to-blue-500",
+    },
+    {
+      num: "05",
+      id: "med",
+      title: "Biomedical Researcher",
+      match: 79,
+      level: "Great fit",
+      tags: ["Medicine", "Research", "Science"],
+      initial: "B",
+      color: "#10b981",
+      bar: "from-emerald-500 to-teal-500",
+    },
+  ];
 
-  const filteredCareers = careersData.filter((c) => {
-    const term = (searchTerm || activeChip || "").toLowerCase();
-    if (!term) return true;
-    return c.title.toLowerCase().includes(term) || c.tags.some((t) => t.toLowerCase().includes(term));
-  });
-
-  const handleChipClick = (chip: string) => {
-    if (activeChip === chip) { setActiveChip(null); setSearchTerm(""); }
-    else { setActiveChip(chip); setSearchTerm(chip); }
-  };
-
-  const clearSearch = () => { setSearchTerm(""); setActiveChip(null); };
+  const featured = careersData[0];
+  const rest = careersData.slice(1);
 
   return (
-    <section className="pt-8 pb-12 px-6 lg:px-12">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid lg:grid-cols-12 gap-8 items-start">
-          {/* LEFT */}
-          <div className="lg:col-span-4 space-y-5">
-            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-widest">
-              <Sparkles className="w-3.5 h-3.5" />
-              Career Explorer
-            </span>
+    <section className="relative pt-12 pb-8 px-6 lg:px-12 overflow-hidden">
+      <div className="absolute top-1/2 left-[10%] -translate-y-1/2 w-[420px] h-[420px] bg-primary/5 rounded-full blur-3xl pointer-events-none" />
 
-            <h2 className="text-4xl font-bold text-foreground leading-tight">
-              What could you
-              <br />
-              <span className="text-primary">become?</span>
-            </h2>
+      <div className="max-w-7xl mx-auto relative">
+        <div className="grid lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+          {/* ==================== LEFT ==================== */}
+          <div className="lg:col-span-5 space-y-6">
+            <div className="space-y-4">
+              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-widest">
+                <Sparkles className="w-3.5 h-3.5" />
+                Career Explorer
+              </span>
 
-            <p className="text-base text-foreground/60 leading-relaxed">
-              Explore careers that match your interests, strengths and future goals. Find the ones that truly fit you.
-            </p>
+              <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-extrabold text-foreground leading-[1.12]">
+                What could you{" "}
+                <span className="bg-gradient-to-r from-primary via-accent to-cyan-400 bg-clip-text text-transparent">
+                  become?
+                </span>
+              </h2>
 
-            <div className="relative">
-              <input
-                type="text"
-                value={searchTerm}
-                onChange={(e) => { setSearchTerm(e.target.value); setActiveChip(null); }}
-                placeholder="Search careers..."
-                className="w-full px-4 py-3.5 pl-11 pr-10 rounded-2xl bg-background/60 border border-foreground/15 focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none text-sm text-foreground placeholder:text-foreground/40 shadow-sm transition-all"
-              />
-              <Search className="w-4 h-4 text-foreground/40 absolute left-4 top-1/2 -translate-y-1/2" />
-              {searchTerm && (
-                <button
-                  onClick={clearSearch}
-                  aria-label="Clear search"
-                  className="absolute right-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-foreground/10 hover:bg-primary hover:text-white transition-colors flex items-center justify-center"
-                >
-                  <X className="w-3.5 h-3.5" />
-                </button>
-              )}
-            </div>
-
-            <div className="space-y-3">
-              <p className="text-[11px] font-bold text-foreground/50 uppercase tracking-wider">
-                Popular searches
+              <p className="text-sm sm:text-base text-foreground/60 leading-relaxed">
+                Explore careers that match your interests, strengths and future
+                goals. Find the ones that truly fit you.
               </p>
-              <div className="flex flex-wrap gap-2">
-                {popularSearches.map((item) => (
-                  <button
-                    key={item}
-                    onClick={() => handleChipClick(item)}
-                    className={`text-xs px-3 py-1.5 rounded-xl border transition-all font-medium ${
-                      activeChip === item
-                        ? "bg-primary text-white border-primary"
-                        : "bg-background/60 border-foreground/10 text-foreground/75 hover:border-primary/30"
-                    }`}
-                  >
-                    {item}
-                  </button>
-                ))}
-              </div>
             </div>
 
-            <div className="p-4 rounded-2xl bg-primary/5 border border-primary/15">
-              <div className="flex items-start gap-3">
-                <TrendingUp className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
-                <p className="text-xs text-foreground/70 leading-relaxed">
-                  Tip: matches update as your profile grows. Complete your Career DNA quiz to unlock sharper suggestions.
-                </p>
+            {/* Stats card */}
+            <div className="relative rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/[0.06] via-background/40 to-accent/[0.04] backdrop-blur-sm overflow-hidden">
+              <div className="absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
+
+              <div className="relative p-5 space-y-5">
+                <div className="grid grid-cols-3 gap-3">
+                  {[
+                    { value: "500+", label: "Careers", color: "#a855f7" },
+                    { value: "98%", label: "Match accuracy", color: "#06b6d4" },
+                    { value: "10k+", label: "Students", color: "#f59e0b" },
+                  ].map((stat) => (
+                    <div
+                      key={stat.label}
+                      className="rounded-xl border p-3 text-center"
+                      style={{
+                        borderColor: `${stat.color}40`,
+                        backgroundColor: `${stat.color}08`,
+                      }}
+                    >
+                      <p
+                        className="text-lg font-extrabold leading-none"
+                        style={{ color: stat.color }}
+                      >
+                        {stat.value}
+                      </p>
+                      <p className="text-[9px] uppercase tracking-wider text-foreground/50 mt-1.5 font-semibold leading-tight">
+                        {stat.label}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="pt-4 border-t border-foreground/10 flex items-start gap-2.5">
+                  <div className="w-7 h-7 rounded-lg bg-primary/15 flex items-center justify-center shrink-0">
+                    <TrendingUp className="w-3.5 h-3.5 text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-[11px] font-bold text-foreground/80 mb-0.5">
+                      Matches grow with you
+                    </p>
+                    <p className="text-[11px] text-foreground/55 leading-relaxed">
+                      Complete your{" "}
+                      <span className="text-primary font-semibold">
+                        Career DNA quiz
+                      </span>{" "}
+                      to unlock sharper suggestions.
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* RIGHT */}
-          <div className="lg:col-span-8 space-y-4">
+          {/* ==================== RIGHT ==================== */}
+          <div className="lg:col-span-7 space-y-4">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 text-primary font-bold text-xs uppercase tracking-wider">
+              <div className="flex items-center gap-2 text-primary font-bold text-xs uppercase tracking-widest">
                 <Sparkles className="w-3.5 h-3.5" />
-                Your Top Matches
+                <span>Your Top Matches</span>
               </div>
               <span className="text-xs text-foreground/50 font-medium">
-                {filteredCareers.length} matches
+                5 matches
               </span>
             </div>
 
-            <AnimatePresence mode="popLayout">
-              {filteredCareers.length === 0 ? (
-                <motion.div
-                  key="empty"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="p-10 rounded-3xl bg-background/50 border border-dashed border-foreground/20 text-center space-y-3"
+            <div className="space-y-3">
+              {/* ===== Featured card ===== */}
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.35 }}
+                className="group relative p-4 rounded-2xl transition-all duration-300 hover:-translate-y-0.5"
+                style={{
+                  backgroundColor: "transparent",
+                  border: `1px solid ${featured.color}20`,
+                }}
+              >
+                {/* Numbered badge — soft */}
+                <span
+                  className="absolute -top-2 -left-2 w-7 h-7 rounded-full bg-background text-[10px] font-extrabold flex items-center justify-center z-10"
+                  style={{
+                    border: `1px solid ${featured.color}40`,
+                    color: featured.color,
+                  }}
                 >
-                  <div className="mx-auto w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center">
-                    <Search className="w-6 h-6 text-primary" />
-                  </div>
-                  <h4 className="font-bold text-foreground">
-                    No careers match &ldquo;{searchTerm}&rdquo;
-                  </h4>
-                  <button
-                    onClick={clearSearch}
-                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-primary text-white text-xs font-bold hover:opacity-90 transition-opacity"
+                  {featured.num}
+                </span>
+
+                {/* Top Match ribbon — soft */}
+                <span
+                  className="absolute -top-2 right-3 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider"
+                  style={{
+                    backgroundColor: `${featured.color}15`,
+                    border: `1px solid ${featured.color}40`,
+                    color: featured.color,
+                  }}
+                >
+                  <Sparkles className="w-2.5 h-2.5" />
+                  {featured.level}
+                </span>
+
+                <div className="flex items-center gap-3 pt-1">
+                  {/* Icon — soft background, colored glyph */}
+                  <div
+                    className="w-11 h-11 rounded-xl flex items-center justify-center font-bold text-base shrink-0 transition-transform duration-300 group-hover:scale-105"
+                    style={{
+                      backgroundColor: "transparent",
+                      border: `1px solid ${featured.color}40`,
+                      color: featured.color,
+                    }}
                   >
-                    Clear search
-                  </button>
-                </motion.div>
-              ) : (
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {filteredCareers.map((career) => (
-                    <motion.div
-                      layout
-                      key={career.id}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.35 }}
-                      className="relative p-5 rounded-3xl bg-background/60 border border-foreground/10 hover:border-primary/30 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between space-y-4 group"
-                    >
-                      {career.level === "Top Match" && (
-                        <span className="absolute -top-2.5 right-4 inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-gradient-to-r from-purple-600 to-pink-500 text-white text-[9px] font-bold uppercase tracking-wide shadow-md">
-                          <Sparkles className="w-2.5 h-2.5" />
-                          {career.level}
+                    {featured.initial}
+                  </div>
+
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <h4 className="font-bold text-sm text-foreground leading-tight truncate">
+                        {featured.title}
+                      </h4>
+                      <span
+                        className="text-[11px] font-extrabold shrink-0"
+                        style={{ color: featured.color }}
+                      >
+                        {featured.match}%
+                      </span>
+                    </div>
+
+                    <div className="h-1 w-full bg-foreground/[0.06] rounded-full overflow-hidden">
+                      <motion.div
+                        initial={{ width: 0 }}
+                        whileInView={{ width: `${featured.match}%` }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.9 }}
+                        className={`h-full bg-gradient-to-r ${featured.bar} rounded-full opacity-60`}
+                      />
+                    </div>
+
+                    <div className="flex flex-wrap gap-1 mt-1.5">
+                      {featured.tags.slice(0, 2).map((tag) => (
+                        <span
+                          key={tag}
+                          className="text-[9px] px-1.5 py-0.5 rounded border font-medium"
+                          style={{
+                            backgroundColor: "transparent",
+                            borderColor: `${featured.color}25`,
+                            color: `${featured.color}cc`,
+                          }}
+                        >
+                          #{tag}
+                        </span>
+                      ))}
+                      {featured.tags.length > 2 && (
+                        <span className="text-[9px] px-1.5 py-0.5 rounded bg-foreground/[0.04] border border-foreground/10 text-foreground/50 font-medium">
+                          +{featured.tags.length - 2}
                         </span>
                       )}
+                    </div>
+                  </div>
 
-                      <div className="space-y-3 pt-1">
-                        <div className="flex items-center gap-3">
-                          <div className={`w-10 h-10 rounded-2xl bg-gradient-to-tr ${career.color} text-white font-bold flex items-center justify-center text-sm shadow-md flex-shrink-0`}>
-                            {career.initial}
-                          </div>
-                          <div className="min-w-0">
-                            <h4 className="font-bold text-sm text-foreground leading-tight truncate">
-                              {career.title}
-                            </h4>
-                            <span className="text-xs font-extrabold text-emerald-600 dark:text-emerald-400">
-                              {career.match}% Match
-                            </span>
-                          </div>
-                        </div>
-
-                        <div className="h-1.5 w-full bg-foreground/[0.08] rounded-full overflow-hidden">
-                          <motion.div
-                            initial={{ width: 0 }}
-                            whileInView={{ width: `${career.match}%` }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.8, delay: 0.1 }}
-                            className={`h-full bg-gradient-to-r ${career.bar} rounded-full`}
-                          />
-                        </div>
-
-                        <div className="flex flex-wrap gap-1">
-                          {career.tags.map((tag) => (
-                            <span
-                              key={tag}
-                              className="text-[10px] px-2 py-0.5 rounded-md bg-foreground/[0.04] border border-foreground/5 text-foreground/70 font-medium"
-                            >
-                              #{tag}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-
-                      <div className="pt-2 flex justify-end">
-                        <div className="inline-flex items-center gap-1 text-[11px] font-semibold text-foreground/50 group-hover:text-primary transition-colors">
-                          View
-                          <span className="w-7 h-7 rounded-full border border-foreground/10 flex items-center justify-center transition-all group-hover:bg-primary group-hover:text-white group-hover:border-transparent">
-                            <ArrowUpRight className="w-3.5 h-3.5" />
-                          </span>
-                        </div>
-                      </div>
-                    </motion.div>
-                  ))}
+                  {/* View — soft */}
+                  <div
+                    className="hidden sm:flex items-center gap-1 text-[10px] font-bold px-2.5 py-1.5 rounded-lg transition-all group-hover:scale-105 shrink-0"
+                    style={{
+                      color: featured.color,
+                      border: `1px solid ${featured.color}30`,
+                      backgroundColor: "transparent",
+                    }}
+                  >
+                    View
+                    <ArrowUpRight className="w-3 h-3" />
+                  </div>
                 </div>
-              )}
-            </AnimatePresence>
+              </motion.div>
+
+              {/* ===== 2x2 grid — soft borders ===== */}
+              <div className="grid sm:grid-cols-2 gap-3">
+                {rest.map((career, i) => (
+                  <motion.div
+                    key={career.id}
+                    initial={{ opacity: 0, y: 12 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.35, delay: i * 0.05 }}
+                    className="group relative p-4 rounded-2xl transition-all duration-300 hover:-translate-y-0.5"
+                    style={{
+                      backgroundColor: "transparent",
+                      border: `1px solid ${career.color}20`,
+                    }}
+                  >
+                    {/* Numbered badge — soft */}
+                    <span
+                      className="absolute -top-2 -left-2 w-6 h-6 rounded-full bg-background text-[9px] font-extrabold flex items-center justify-center z-10"
+                      style={{
+                        border: `1px solid ${career.color}40`,
+                        color: career.color,
+                      }}
+                    >
+                      {career.num}
+                    </span>
+
+                    <div className="flex items-center gap-2.5 pt-1 mb-2.5">
+                      {/* Icon — no fill, colored glyph */}
+                      <div
+                        className="w-9 h-9 rounded-lg flex items-center justify-center font-bold text-xs shrink-0 transition-transform duration-300 group-hover:scale-110"
+                        style={{
+                          backgroundColor: "transparent",
+                          border: `1px solid ${career.color}40`,
+                          color: career.color,
+                        }}
+                      >
+                        {career.initial}
+                      </div>
+
+                      <div className="min-w-0 flex-1">
+                        <h4 className="font-bold text-xs text-foreground leading-tight truncate">
+                          {career.title}
+                        </h4>
+                        <span
+                          className="text-[10px] font-extrabold"
+                          style={{ color: career.color }}
+                        >
+                          {career.match}% Match
+                        </span>
+                      </div>
+
+                      {/* Arrow — soft circle outline */}
+                      <span
+                        className="w-6 h-6 rounded-full flex items-center justify-center shrink-0 transition-transform group-hover:scale-110"
+                        style={{ border: `1px solid ${career.color}30` }}
+                      >
+                        <ArrowUpRight
+                          className="w-3 h-3"
+                          style={{ color: career.color }}
+                        />
+                      </span>
+                    </div>
+
+                    <div className="h-1 w-full bg-foreground/[0.06] rounded-full overflow-hidden mb-2.5">
+                      <motion.div
+                        initial={{ width: 0 }}
+                        whileInView={{ width: `${career.match}%` }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8, delay: 0.1 }}
+                        className={`h-full bg-gradient-to-r ${career.bar} rounded-full opacity-60`}
+                      />
+                    </div>
+
+                    <div className="flex flex-wrap gap-1">
+                      {career.tags.slice(0, 2).map((tag) => (
+                        <span
+                          key={tag}
+                          className="text-[9px] px-1.5 py-0.5 rounded border font-medium"
+                          style={{
+                            backgroundColor: "transparent",
+                            borderColor: `${career.color}25`,
+                            color: `${career.color}cc`,
+                          }}
+                        >
+                          #{tag}
+                        </span>
+                      ))}
+                      {career.tags.length > 2 && (
+                        <span className="text-[9px] px-1.5 py-0.5 rounded bg-foreground/[0.04] border border-foreground/10 text-foreground/50 font-medium">
+                          +{career.tags.length - 2}
+                        </span>
+                      )}
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -534,19 +929,18 @@ function StudentsDashboardPreview() {
       label: "Notifications & more",
       sub: "Progress without pressure",
       icon: Bell,
-      color: "#f43f5e",
+      color: "#ec4899",
     },
   ];
 
   return (
-    <section className="relative pt-8 pb-12 px-6 lg:px-12 overflow-hidden">
-      {/* ambient glow behind mockup */}
+    <section className="relative pt-8 pb-6 px-6 lg:px-12 overflow-hidden">
       <div className="absolute top-1/2 right-[10%] -translate-y-1/2 w-[500px] h-[500px] bg-primary/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative">
         <div className="grid lg:grid-cols-12 gap-10 lg:gap-14 items-center">
           {/* ==================== LEFT — Numbered Step List ==================== */}
-          <div className="lg:col-span-5 space-y-8">
+          <div className="lg:col-span-5 space-y-6">
             <div className="space-y-4">
               <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-widest">
                 <Sparkles className="w-3.5 h-3.5" />
@@ -600,9 +994,7 @@ function StudentsDashboardPreview() {
                         <div
                           className="w-[2px] flex-1 my-1 rounded-full"
                           style={{
-                            background: `linear-gradient(to bottom, ${
-                              step.color
-                            }80, ${steps[i + 1].color}80)`,
+                            background: `linear-gradient(to bottom, ${step.color}80, ${steps[i + 1].color}80)`,
                             opacity: 0.4,
                           }}
                         />
@@ -637,20 +1029,10 @@ function StudentsDashboardPreview() {
                 );
               })}
             </div>
-
-            <div className="pt-4 border-t border-foreground/10">
-              <a
-                href="#"
-                className="inline-flex items-center gap-2 text-sm font-bold text-primary hover:text-primary/80 transition-colors group"
-              >
-                See the full dashboard
-                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-              </a>
-            </div>
           </div>
 
-          {/* ==================== RIGHT — Enhanced Mockup ==================== */}
-          <div className="lg:col-span-7">
+          {/* ==================== RIGHT — Mockup + CTA below ==================== */}
+          <div className="lg:col-span-7 space-y-4">
             <div className="relative">
               {/* Outer colored glow halo */}
               <div className="absolute -inset-6 bg-gradient-to-tr from-purple-500/20 via-pink-500/10 to-cyan-500/20 rounded-[40px] blur-2xl pointer-events-none" />
@@ -676,7 +1058,6 @@ function StudentsDashboardPreview() {
                         app.novi.ai/dashboard
                       </span>
                     </div>
-                    {/* LIVE badge */}
                     <span className="hidden sm:flex items-center gap-1.5 px-2 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30">
                       <span className="relative flex w-1.5 h-1.5">
                         <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 animate-ping" />
@@ -689,7 +1070,6 @@ function StudentsDashboardPreview() {
                   </div>
 
                   <div className="p-5">
-                    {/* Greeting */}
                     <div className="flex items-start justify-between mb-4">
                       <div>
                         <h4 className="font-extrabold text-base text-foreground mb-0.5">
@@ -699,7 +1079,6 @@ function StudentsDashboardPreview() {
                           Here&apos;s what&apos;s next for your journey.
                         </p>
                       </div>
-                      {/* Small Nova Mascot badge */}
                       <div className="hidden sm:flex items-center gap-2 px-2.5 py-1.5 rounded-xl bg-gradient-to-br from-primary/15 to-accent/10 border border-primary/25">
                         <div className="w-5 h-5 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-[9px] font-bold text-white">
                           N
@@ -710,9 +1089,8 @@ function StudentsDashboardPreview() {
                       </div>
                     </div>
 
-                    {/* Two main cards with numbered badges */}
                     <div className="grid sm:grid-cols-2 gap-3 mb-4">
-                      {/* Card 01 — Mission (purple) */}
+                      {/* Card 01 — Mission */}
                       <div
                         className="relative p-4 rounded-2xl bg-background/40 border transition-all duration-300 hover:-translate-y-0.5"
                         style={{
@@ -720,7 +1098,6 @@ function StudentsDashboardPreview() {
                           boxShadow: "0 0 20px rgba(168, 85, 247, 0.08)",
                         }}
                       >
-                        {/* Numbered badge */}
                         <span
                           className="absolute -top-2 -left-2 w-6 h-6 rounded-full bg-background border-2 text-[9px] font-bold flex items-center justify-center"
                           style={{
@@ -761,10 +1138,7 @@ function StudentsDashboardPreview() {
                             { label: "Add Your Coding Project", done: false },
                             { label: "Finish Your Weekly Goal", done: true },
                           ].map((task) => (
-                            <div
-                              key={task.label}
-                              className="flex items-center gap-1.5"
-                            >
+                            <div key={task.label} className="flex items-center gap-1.5">
                               {task.done ? (
                                 <CheckCircle2 className="w-3 h-3 text-emerald-500" />
                               ) : (
@@ -788,7 +1162,7 @@ function StudentsDashboardPreview() {
                         </div>
                       </div>
 
-                      {/* Card 02 — Profile (cyan) */}
+                      {/* Card 02 — Profile */}
                       <div
                         className="relative p-4 rounded-2xl bg-background/40 border flex flex-col items-center justify-center text-center transition-all duration-300 hover:-translate-y-0.5"
                         style={{
@@ -796,7 +1170,6 @@ function StudentsDashboardPreview() {
                           boxShadow: "0 0 20px rgba(6, 182, 212, 0.08)",
                         }}
                       >
-                        {/* Numbered badge */}
                         <span
                           className="absolute -top-2 -left-2 w-6 h-6 rounded-full bg-background border-2 text-[9px] font-bold flex items-center justify-center"
                           style={{
@@ -820,10 +1193,7 @@ function StudentsDashboardPreview() {
                         </div>
 
                         <div className="relative w-[70px] h-[70px]">
-                          <svg
-                            className="w-full h-full -rotate-90"
-                            viewBox="0 0 100 100"
-                          >
+                          <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
                             <circle
                               cx="50"
                               cy="50"
@@ -842,21 +1212,13 @@ function StudentsDashboardPreview() {
                               strokeWidth="8"
                               strokeLinecap="round"
                               initial={{ strokeDashoffset: 251.2 }}
-                              whileInView={{
-                                strokeDashoffset: 251.2 * (1 - 0.78),
-                              }}
+                              whileInView={{ strokeDashoffset: 251.2 * (1 - 0.78) }}
                               viewport={{ once: true }}
                               transition={{ duration: 1.5, ease: "easeOut" }}
                               strokeDasharray="251.2"
                             />
                             <defs>
-                              <linearGradient
-                                id="dashGrad"
-                                x1="0%"
-                                y1="0%"
-                                x2="100%"
-                                y2="0%"
-                              >
+                              <linearGradient id="dashGrad" x1="0%" y1="0%" x2="100%" y2="0%">
                                 <stop offset="0%" stopColor="#a855f7" />
                                 <stop offset="100%" stopColor="#06b6d4" />
                               </linearGradient>
@@ -883,7 +1245,7 @@ function StudentsDashboardPreview() {
                       </div>
                     </div>
 
-                    {/* Card 03 — Next Up (amber) */}
+                    {/* Card 03 — Next Up */}
                     <div
                       className="relative p-4 rounded-2xl border flex items-center justify-between gap-3 transition-all duration-300 hover:-translate-y-0.5"
                       style={{
@@ -891,7 +1253,6 @@ function StudentsDashboardPreview() {
                         borderColor: "rgba(245, 158, 11, 0.35)",
                       }}
                     >
-                      {/* Numbered badge */}
                       <span
                         className="absolute -top-2 -left-2 w-6 h-6 rounded-full bg-background border-2 text-[9px] font-bold flex items-center justify-center"
                         style={{
@@ -924,7 +1285,7 @@ function StudentsDashboardPreview() {
                       <button
                         className="px-3 py-1.5 rounded-xl text-white font-bold text-[11px] hover:opacity-90 transition-opacity flex-shrink-0 shadow-lg"
                         style={{
-                          background: "linear-gradient(135deg, #f59e0b, #f43f5e)",
+                          background: "linear-gradient(135deg, #f59e0b, #ec4899)",
                           boxShadow: "0 4px 14px rgba(245, 158, 11, 0.35)",
                         }}
                       >
@@ -935,7 +1296,7 @@ function StudentsDashboardPreview() {
                 </div>
               </div>
 
-              {/* Floating "Powered by Novi AI" badge */}
+              {/* Floating badge */}
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -951,6 +1312,17 @@ function StudentsDashboardPreview() {
                 </span>
               </motion.div>
             </div>
+
+            {/* ============ CTA — moved below mockup ============ */}
+            <div className="flex justify-center pt-3">
+              <a
+                href="#"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary/10 border border-primary/30 text-primary text-sm font-bold hover:bg-primary/20 hover:border-primary/50 transition-all group"
+              >
+                See the full dashboard
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -962,216 +1334,637 @@ function StudentsDashboardPreview() {
    4. GROWTH PIPELINE — Single-Line Timeline
    ============================================================ */
 
+// function StudentsGrowthPipeline() {
+//   // Preloaded active node so the timeline feels interactive on load
+//   const [activeNode, setActiveNode] = useState("Academics");
+
+//   // Color palette aligned with the Dashboard section (purple / pink / cyan / amber / violet)
+//   const nodes = [
+//     { label: "Interests", sub: "What excites you", icon: Heart, color: "#a855f7" },
+//     { label: "Strengths", sub: "What you're good at", icon: Sparkles, color: "#ec4899" },
+//     { label: "Academics", sub: "How you perform", icon: BookOpen, color: "#06b6d4" },
+//     { label: "Activities", sub: "What you do", icon: Activity, color: "#3b82f6" },
+//     { label: "Achievements", sub: "What you've won", icon: Trophy, color: "#f59e0b" },
+//     { label: "Goals", sub: "What you aim for", icon: Target, color: "#8b5cf6" },
+//     { label: "Experiences", sub: "What you've lived", icon: Compass, color: "#14b8a6" },
+//     {
+//       label: "Personalized",
+//       sub: "Your unique plan",
+//       icon: Sparkles,
+//       color: "#a855f7",
+//       isFinal: true,
+//     },
+//   ];
+
+//   return (
+//     <section className="relative pt-10 lg:pt-12 pb-16 lg:pb-20 px-6 lg:px-12 overflow-hidden">
+//       <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
+
+//       <div className="max-w-7xl mx-auto relative">
+//         {/* ==================== HEADER ==================== */}
+//         <div className="grid lg:grid-cols-12 gap-8 items-end mb-12">
+//           <div className="lg:col-span-7 space-y-5">
+//             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-widest">
+//               <Sparkles className="w-3.5 h-3.5" />
+//               Your Growth Engine
+//             </div>
+
+//             <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-extrabold text-foreground leading-[1.12]">
+//               Novi understands you better{" "}
+//               <span className="bg-gradient-to-r from-primary via-accent to-cyan-400 bg-clip-text text-transparent">
+//                 over time.
+//               </span>
+//             </h2>
+
+//             <p className="text-sm sm:text-base text-foreground/60 leading-relaxed max-w-xl">
+//               Your interests, strengths, experiences and goals come together
+//               to create a profile that grows with you — and gets smarter over
+//               time.
+//             </p>
+//           </div>
+
+//           {/* Checkmarks in a subtle bordered card */}
+//           <div className="lg:col-span-5 lg:pb-2">
+//             <div className="rounded-2xl border border-foreground/10 bg-background/40 backdrop-blur-sm p-4">
+//               <div className="grid grid-cols-2 gap-x-4 gap-y-3">
+//                 {[
+//                   "You build a Career DNA",
+//                   "Novi spots patterns",
+//                   "Skills compound over time",
+//                   "Becomes a personalized plan",
+//                 ].map((line, i) => (
+//                   <div
+//                     key={i}
+//                     className="flex items-start gap-2 text-[12px] text-foreground/70 leading-snug"
+//                   >
+//                     <div className="w-5 h-5 mt-0.5 rounded-full bg-primary/15 flex items-center justify-center shrink-0">
+//                       <CheckCircle2 className="w-3 h-3 text-primary" />
+//                     </div>
+//                     <span>{line}</span>
+//                   </div>
+//                 ))}
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+
+//         {/* ==================== TIMELINE ==================== */}
+//         <div className="relative pt-8 pb-4">
+//           {/* Animated gradient line only */}
+//           <div className="absolute top-[46px] left-[3%] right-[3%] h-[2px]">
+//             <motion.div
+//               initial={{ scaleX: 0 }}
+//               whileInView={{ scaleX: 1 }}
+//               viewport={{ once: true, amount: 0.3 }}
+//               transition={{ duration: 1.6, ease: "easeOut" }}
+//               style={{ transformOrigin: "left" }}
+//               className="absolute inset-y-0 left-0 w-full bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-400 rounded-full shadow-[0_0_12px_rgba(168,85,247,0.5)]"
+//             />
+//           </div>
+
+//           {/* Nodes row */}
+//           <div className="relative flex items-start justify-between gap-2">
+//             {nodes.map((node, i) => {
+//               const Icon = node.icon;
+//               const isActive = activeNode === node.label;
+
+//               return (
+//                 <motion.div
+//                   key={node.label}
+//                   initial={{ opacity: 0, y: 12 }}
+//                   whileInView={{ opacity: 1, y: 0 }}
+//                   viewport={{ once: true, amount: 0.3 }}
+//                   transition={{ duration: 0.35, delay: i * 0.06 }}
+//                   className="flex flex-col items-center gap-4 flex-1 min-w-0"
+//                 >
+//                   <button
+//                     type="button"
+//                     onClick={() => setActiveNode(isActive ? null : node.label)}
+//                     aria-label={`Select ${node.label}`}
+//                     className="relative flex flex-col items-center cursor-pointer focus:outline-none group"
+//                   >
+//                     <div className="relative">
+//                       {/* Halo on active */}
+//                       <motion.div
+//                         className="absolute inset-0 rounded-full blur-xl pointer-events-none"
+//                         style={{ backgroundColor: node.color }}
+//                         animate={{
+//                           opacity: isActive ? 0.6 : 0,
+//                           scale: isActive ? 1.6 : 1,
+//                         }}
+//                         transition={{ duration: 0.3 }}
+//                       />
+
+//                       <div
+//                         className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center bg-background transition-all duration-300"
+//                         style={{
+//                           border: `2px solid ${
+//                             isActive ? node.color : "rgba(255,255,255,0.15)"
+//                           }`,
+//                           boxShadow: isActive
+//                             ? `0 0 20px ${node.color}80, inset 0 0 10px ${node.color}30`
+//                             : "0 4px 12px rgba(0,0,0,0.3)",
+//                           transform: isActive ? "scale(1.1)" : "scale(1)",
+//                         }}
+//                       >
+//                         <Icon
+//                           className="w-5 h-5 sm:w-6 sm:h-6 transition-all duration-300"
+//                           style={{ color: node.color }}
+//                         />
+//                       </div>
+
+//                       {/* Final badge */}
+//                       {node.isFinal && (
+//                         <span className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 border-2 border-background flex items-center justify-center shadow-md">
+//                           <Sparkles
+//                             className="w-2.5 h-2.5 text-white"
+//                             strokeWidth={2.5}
+//                           />
+//                         </span>
+//                       )}
+//                     </div>
+//                   </button>
+
+//                   {/* Labels — more breathing room now */}
+//                   <div className="text-center px-1 mt-1">
+//                     <p
+//                       className={`text-[11px] sm:text-xs font-bold transition-colors ${
+//                         node.isFinal
+//                           ? "bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent"
+//                           : ""
+//                       }`}
+//                       style={
+//                         !node.isFinal
+//                           ? {
+//                               color: isActive
+//                                 ? node.color
+//                                 : "rgba(255,255,255,0.75)",
+//                             }
+//                           : undefined
+//                       }
+//                     >
+//                       {node.label}
+//                     </p>
+//                     <p className="hidden sm:block text-[10px] text-foreground/40 mt-1 whitespace-nowrap">
+//                       {node.sub}
+//                     </p>
+//                   </div>
+//                 </motion.div>
+//               );
+//             })}
+//           </div>
+//         </div>
+
+//         {/* Hint below timeline */}
+//         <div className="flex justify-center mt-8">
+//           <span className="inline-flex items-center gap-2 text-[11px] text-foreground/40 font-medium">
+//             <span className="w-1.5 h-1.5 rounded-full bg-primary/60 animate-pulse" />
+//             Tap any node to see how it grows
+//           </span>
+//         </div>
+//       </div>
+//     </section>
+//   );
+// }
+
+
+
+
 function StudentsGrowthPipeline() {
-  const [activeNode, setActiveNode] = useState<string | null>(null);
+  const [active, setActive] = useState<number | null>(null);
+  const [burst, setBurst] = useState(0);
 
   const nodes = [
     {
       label: "Interests",
       sub: "What excites you",
+      desc: "We map the things you genuinely enjoy doing — the raw material of your Career DNA.",
       icon: Heart,
       color: "#a855f7",
     },
     {
       label: "Strengths",
       sub: "What you're good at",
+      desc: "Novi spots the patterns behind your natural abilities, so you can lean into them.",
       icon: Sparkles,
       color: "#f43f5e",
     },
     {
       label: "Academics",
       sub: "How you perform",
+      desc: "Subjects, scores, and study habits tracked over time — no more flying blind.",
       icon: BookOpen,
       color: "#10b981",
     },
     {
       label: "Activities",
       sub: "What you do",
+      desc: "Clubs, hobbies, sports, projects — the full picture of how you spend your energy.",
       icon: Activity,
       color: "#06b6d4",
     },
     {
       label: "Achievements",
       sub: "What you've won",
+      desc: "Contests, awards, milestones — all the evidence that you're moving forward.",
       icon: Trophy,
       color: "#f59e0b",
     },
     {
       label: "Goals",
       sub: "What you aim for",
+      desc: "Short-term and long-term targets that keep every week aligned to your bigger why.",
       icon: Target,
       color: "#6366f1",
     },
     {
       label: "Experiences",
       sub: "What you've lived",
+      desc: "Internships, workshops, real-world moments that build the story universities love.",
       icon: Compass,
       color: "#14b8a6",
     },
     {
       label: "Personalized",
       sub: "Your unique plan",
+      desc: "Everything above converges into a roadmap that's genuinely, uniquely yours.",
       icon: Sparkles,
-      color: "#8b5cf6",
+      color: "#a855f7",
       isFinal: true,
     },
   ];
 
+  const handleClick = (i: number) => {
+    const isActive = active === i;
+    if (i === nodes.length - 1 && !isActive) {
+      setBurst((b) => b + 1);
+    }
+    setActive(isActive ? null : i);
+  };
+
+  const particleAngles = Array.from({ length: 16 }, (_, i) => (i * 360) / 16);
+
   return (
-    <section className="relative py-16 lg:py-20 px-6 lg:px-12 overflow-hidden">
-      <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
+    <section className="relative pt-10 pb-4 px-6 lg:px-12 overflow-visible">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[300px] bg-primary/[0.04] rounded-full blur-3xl pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto relative">
-        {/* ==================== HEADER ==================== */}
-        <div className="grid lg:grid-cols-12 gap-8 items-end mb-16">
-          <div className="lg:col-span-7 space-y-5">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-widest">
-              <Sparkles className="w-3.5 h-3.5" />
+      <div className="max-w-7xl mx-auto relative z-10">
+        <div className="grid lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+          {/* ==================== LEFT — Sticky text ==================== */}
+          <div className="lg:col-span-4 lg:sticky lg:top-24 space-y-5">
+            <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-[11px] font-bold uppercase tracking-widest">
+              <Sparkles className="w-3 h-3" />
               Your Growth Engine
-            </div>
+            </span>
 
-            <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-extrabold text-foreground leading-[1.12]">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground leading-[1.15]">
               Novi understands you better{" "}
               <span className="bg-gradient-to-r from-primary via-accent to-cyan-400 bg-clip-text text-transparent">
                 over time.
               </span>
             </h2>
 
-            <p className="text-sm sm:text-base text-foreground/60 leading-relaxed max-w-xl">
-              Your interests, strengths, experiences and goals come together
-              to create a profile that grows with you — and gets smarter over
-              time.
+            <p className="text-sm text-foreground/60 leading-relaxed max-w-md">
+              Your interests, strengths, experiences and goals come together to
+              create a profile that grows with you — and gets smarter over time.
             </p>
-          </div>
 
-          <div className="lg:col-span-5 grid grid-cols-2 gap-x-6 gap-y-2.5 lg:pb-2">
-            {[
-              "You build a Career DNA",
-              "Novi spots patterns",
-              "Skills compound over time",
-              "Becomes a personalized plan",
-            ].map((line, i) => (
-              <div
-                key={i}
-                className="flex items-center gap-2.5 text-sm text-foreground/70"
-              >
-                <div className="w-5 h-5 rounded-full bg-primary/15 flex items-center justify-center shrink-0">
-                  <CheckCircle2 className="w-3 h-3 text-primary" />
-                </div>
-                {line}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* ==================== TIMELINE ==================== */}
-        <div className="relative pt-8 pb-4">
-          {/* Animated gradient line only — no background guide */}
-          <div className="absolute top-[46px] left-[3%] right-[3%] h-[2px]">
-            <motion.div
-              initial={{ scaleX: 0 }}
-              whileInView={{ scaleX: 1 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 1.6, ease: "easeOut" }}
-              style={{ transformOrigin: "left" }}
-              className="absolute inset-y-0 left-0 w-full bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-400 rounded-full shadow-[0_0_12px_rgba(168,85,247,0.5)]"
-            />
-          </div>
-
-          {/* Nodes row */}
-          <div className="relative flex items-start justify-between gap-2">
-            {nodes.map((node, i) => {
-              const Icon = node.icon;
-              const isActive = activeNode === node.label;
-
-              return (
-                <motion.div
-                  key={node.label}
-                  initial={{ opacity: 0, y: 12 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.3 }}
-                  transition={{ duration: 0.35, delay: i * 0.06 }}
-                  className="flex flex-col items-center gap-3 flex-1 min-w-0"
+            <div className="space-y-2.5 pt-3">
+              {[
+                "You build a Career DNA",
+                "Novi spots patterns",
+                "Skills compound over time",
+                "Becomes a personalized plan",
+              ].map((line, i) => (
+                <div
+                  key={i}
+                  className="flex items-center gap-2.5 text-[12px] text-foreground/70"
                 >
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setActiveNode(isActive ? null : node.label)
-                    }
-                    aria-label={`Select ${node.label}`}
-                    className="relative flex flex-col items-center cursor-pointer focus:outline-none group"
-                  >
-                    <div className="relative">
-                      {/* Halo on active */}
-                      <motion.div
-                        className="absolute inset-0 rounded-full blur-xl pointer-events-none"
-                        style={{ backgroundColor: node.color }}
-                        animate={{
-                          opacity: isActive ? 0.6 : 0,
-                          scale: isActive ? 1.6 : 1,
-                        }}
-                        transition={{ duration: 0.3 }}
-                      />
+                  <div className="w-5 h-5 rounded-full bg-primary/15 flex items-center justify-center shrink-0">
+                    <CheckCircle2 className="w-3 h-3 text-primary" />
+                  </div>
+                  {line}
+                </div>
+              ))}
+            </div>
+          </div>
 
-                      <div
-                        className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center bg-background transition-all duration-300"
-                        style={{
-                          border: `2px solid ${
-                            isActive
-                              ? node.color
-                              : "rgba(255,255,255,0.15)"
-                          }`,
-                          boxShadow: isActive
-                            ? `0 0 20px ${node.color}80, inset 0 0 10px ${node.color}30`
-                            : "0 4px 12px rgba(0,0,0,0.3)",
-                          transform: isActive ? "scale(1.1)" : "scale(1)",
-                        }}
+          {/* ==================== RIGHT — Interactive rail ==================== */}
+          <div className="lg:col-span-8 relative">
+            {/* ============ HINT — ABOVE icons, top-right ============ */}
+            <motion.div
+              initial={{ opacity: 0, y: -6 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3, duration: 0.4 }}
+              className="flex items-center justify-end gap-2 mb-4 pr-1"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-primary/60 animate-pulse" />
+              <span className="text-[11px] text-foreground/45 font-medium">
+                {active === null
+                  ? "Tap any icon to see how Novi grows with you"
+                  : "Tap the same icon again to close"}
+              </span>
+            </motion.div>
+
+            {/* ============ ICONS ROW ============ */}
+            <div className="relative flex items-start justify-between gap-1 sm:gap-3 pb-2">
+              {nodes.map((node, i) => {
+                const Icon = node.icon;
+                const isActive = active === i;
+                const isFinalNode = node.isFinal;
+
+                return (
+                  <Fragment key={node.label}>
+                    <div className="relative flex flex-col items-center">
+                      <motion.button
+                        type="button"
+                        onClick={() => handleClick(i)}
+                        initial={{ opacity: 0, y: 12 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, amount: 0.3 }}
+                        transition={{ duration: 0.35, delay: i * 0.05 }}
+                        aria-label={`Show ${node.label}`}
+                        className="relative flex flex-col items-center gap-3 group focus:outline-none"
                       >
-                        <Icon
-                          className="w-5 h-5 sm:w-6 sm:h-6 transition-all duration-300"
-                          style={{ color: node.color }}
-                        />
-                      </div>
+                        {/* Icon circle */}
+                        <div className="relative">
+                          {/* Standard halo for non-final nodes */}
+                          {!isFinalNode && (
+                            <motion.div
+                              className="absolute inset-0 rounded-full blur-xl pointer-events-none"
+                              style={{ backgroundColor: node.color }}
+                              animate={{
+                                opacity: isActive ? 0.55 : 0,
+                                scale: isActive ? 1.5 : 1,
+                              }}
+                              transition={{ duration: 0.3 }}
+                            />
+                          )}
 
-                      {/* Final badge */}
-                      {node.isFinal && (
-                        <span className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 border-2 border-background flex items-center justify-center shadow-md">
-                          <Sparkles
-                            className="w-2.5 h-2.5 text-white"
-                            strokeWidth={2.5}
-                          />
-                        </span>
-                      )}
-                    </div>
-                  </button>
+                          {/* ============ BOOM for final node ============ */}
+                          {isFinalNode && (
+                            <AnimatePresence>
+                              {isActive && (
+                                <div
+                                  key={`boom-${burst}`}
+                                  className="absolute inset-0 pointer-events-none"
+                                >
+                                  {[0, 1, 2].map((ring) => (
+                                    <motion.span
+                                      key={`ring-${ring}`}
+                                      initial={{ scale: 1, opacity: 0.85 }}
+                                      animate={{
+                                        scale: 4 + ring * 0.6,
+                                        opacity: 0,
+                                      }}
+                                      transition={{
+                                        duration: 1.1,
+                                        delay: ring * 0.12,
+                                        ease: "easeOut",
+                                      }}
+                                      className="absolute inset-0 rounded-full border-2"
+                                      style={{
+                                        borderColor: node.color,
+                                        boxShadow: `0 0 24px ${node.color}`,
+                                      }}
+                                    />
+                                  ))}
 
-                  {/* Labels */}
-                  <div className="text-center px-1">
-                    <p
-                      className={`text-[11px] sm:text-xs font-bold transition-colors ${
-                        node.isFinal
-                          ? "bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent"
-                          : ""
-                      }`}
-                      style={
-                        !node.isFinal
-                          ? {
+                                  <motion.div
+                                    initial={{ scale: 0.5, opacity: 0.9 }}
+                                    animate={{ scale: 3.5, opacity: 0 }}
+                                    transition={{
+                                      duration: 1.2,
+                                      ease: "easeOut",
+                                    }}
+                                    className="absolute inset-0 rounded-full blur-2xl"
+                                    style={{
+                                      background: `radial-gradient(circle, ${node.color}, ${node.color}80, transparent 70%)`,
+                                    }}
+                                  />
+
+                                  {particleAngles.map((angle, idx) => {
+                                    const rad = (angle * Math.PI) / 180;
+                                    const distance = 60 + (idx % 3) * 18;
+                                    const px = Math.cos(rad) * distance;
+                                    const py = Math.sin(rad) * distance;
+
+                                    return (
+                                      <motion.span
+                                        key={`particle-${idx}`}
+                                        initial={{
+                                          x: 0,
+                                          y: 0,
+                                          scale: 1,
+                                          opacity: 1,
+                                        }}
+                                        animate={{
+                                          x: px,
+                                          y: py,
+                                          scale: 0,
+                                          opacity: 0,
+                                        }}
+                                        transition={{
+                                          duration: 0.85 + (idx % 3) * 0.12,
+                                          delay: idx * 0.015,
+                                          ease: "easeOut",
+                                        }}
+                                        className="absolute top-1/2 left-1/2 w-2 h-2 -ml-1 -mt-1 rounded-full"
+                                        style={{
+                                          backgroundColor:
+                                            idx % 3 === 0
+                                              ? "#a855f7"
+                                              : idx % 3 === 1
+                                              ? "#06b6d4"
+                                              : "#ec4899",
+                                          boxShadow: `0 0 8px ${
+                                            idx % 3 === 0
+                                              ? "#a855f7"
+                                              : idx % 3 === 1
+                                              ? "#06b6d4"
+                                              : "#ec4899"
+                                          }`,
+                                        }}
+                                      />
+                                    );
+                                  })}
+                                </div>
+                              )}
+                            </AnimatePresence>
+                          )}
+
+                          <div
+                            className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center bg-background transition-all duration-300 overflow-hidden"
+                            style={{
+                              border: `2px solid ${
+                                isActive ? node.color : "rgba(255,255,255,0.12)"
+                              }`,
+                              boxShadow: isActive
+                                ? `0 0 24px ${node.color}80, inset 0 0 12px ${node.color}30`
+                                : "0 4px 12px rgba(0,0,0,0.3)",
+                              transform: isActive ? "scale(1.12)" : undefined,
+                            }}
+                          >
+                            {isFinalNode && isActive && (
+                              <motion.div
+                                initial={{ opacity: 0, scale: 0 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{
+                                  type: "spring",
+                                  stiffness: 260,
+                                  damping: 22,
+                                }}
+                                className="absolute inset-0 rounded-full"
+                                style={{
+                                  background:
+                                    "linear-gradient(135deg, #a855f7, #06b6d4, #ec4899, #a855f7)",
+                                  backgroundSize: "300% 300%",
+                                }}
+                              />
+                            )}
+
+                            <Icon
+                              className="relative w-5 h-5 sm:w-6 sm:h-6 transition-all duration-300 z-10"
+                              style={{
+                                color:
+                                  isFinalNode && isActive ? "#fff" : node.color,
+                              }}
+                            />
+
+                            {node.isFinal && (
+                              <span className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 border-2 border-background flex items-center justify-center shadow-md z-20">
+                                <Sparkles
+                                  className="w-2.5 h-2.5 text-white"
+                                  strokeWidth={2.5}
+                                />
+                              </span>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Label + sub */}
+                        <div className="text-center px-0.5">
+                          <p
+                            className="text-[10px] sm:text-[11px] font-bold transition-colors duration-300 leading-tight"
+                            style={{
                               color: isActive
                                 ? node.color
-                                : "rgba(255,255,255,0.75)",
-                            }
-                          : undefined
-                      }
-                    >
-                      {node.label}
-                    </p>
-                    <p className="hidden sm:block text-[10px] text-foreground/40 mt-0.5 whitespace-nowrap">
-                      {node.sub}
-                    </p>
-                  </div>
-                </motion.div>
-              );
-            })}
+                                : "rgba(255,255,255,0.7)",
+                            }}
+                          >
+                            {node.label}
+                          </p>
+                          <p className="hidden sm:block text-[9px] text-foreground/35 mt-0.5 leading-tight">
+                            {node.sub}
+                          </p>
+                        </div>
+                      </motion.button>
+
+                      {/* ============ POPUP — ABOVE the icon ============ */}
+                      <AnimatePresence>
+                        {isActive && (
+                          <motion.div
+                            initial={{ opacity: 0, y: -8, scale: 0.94 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: 4, scale: 0.96 }}
+                            transition={{
+                              type: "spring",
+                              stiffness: 380,
+                              damping: 28,
+                            }}
+                            className={`absolute bottom-full mb-4 z-50 pointer-events-none w-[260px] sm:w-[300px] ${
+                              i > 4 ? "right-0" : "left-1/2 -translate-x-1/2"
+                            }`}
+                          >
+                            <div
+                              className="relative rounded-2xl border bg-surface dark:bg-[#12112a] shadow-[0_20px_60px_rgba(0,0,0,0.6)] overflow-hidden pointer-events-auto"
+                              style={{ borderColor: `${node.color}60` }}
+                            >
+                              {/* Arrow pointing DOWN to icon */}
+                              <div
+                                className={`absolute -bottom-1.5 w-3 h-3 rotate-45 bg-surface dark:bg-[#12112a] ${
+                                  i > 4 ? "right-6" : "left-1/2 -translate-x-1/2"
+                                }`}
+                                style={{
+                                  borderBottom: `1px solid ${node.color}60`,
+                                  borderRight: `1px solid ${node.color}60`,
+                                }}
+                              />
+
+                              {/* Top gradient line */}
+                              <div
+                                className="absolute inset-x-8 top-0 h-px"
+                                style={{
+                                  background: `linear-gradient(to right, transparent, ${node.color}, transparent)`,
+                                }}
+                              />
+
+                              <div className="relative p-4">
+                                <div className="flex items-center gap-2.5 mb-2.5">
+                                  <div
+                                    className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0"
+                                    style={{
+                                      backgroundColor: `${node.color}15`,
+                                      border: `1.5px solid ${node.color}50`,
+                                    }}
+                                  >
+                                    <node.icon
+                                      className="w-4 h-4"
+                                      style={{ color: node.color }}
+                                    />
+                                  </div>
+                                  <div className="min-w-0">
+                                    <p
+                                      className="text-[11px] font-bold uppercase tracking-widest leading-tight"
+                                      style={{ color: node.color }}
+                                    >
+                                      {node.label}
+                                    </p>
+                                    <p className="text-[10px] text-foreground/50 leading-tight">
+                                      {node.sub}
+                                    </p>
+                                  </div>
+                                </div>
+
+                                <p className="text-[11px] text-foreground/75 leading-relaxed">
+                                  {node.desc}
+                                </p>
+
+                                <div className="mt-3 pt-2.5 border-t border-foreground/10 flex items-center justify-between">
+                                  <span className="text-[9px] uppercase tracking-widest text-foreground/35 font-semibold">
+                                    Tap again to close
+                                  </span>
+                                  <X className="w-3 h-3 text-foreground/30" />
+                                </div>
+                              </div>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+
+                    {/* Arrow connector between nodes */}
+                    {i < nodes.length - 1 && (
+                      <div className="hidden sm:flex flex-1 items-center justify-center pt-7">
+                        <ArrowRight
+                          className="w-4 h-4 text-foreground/15"
+                          strokeWidth={2}
+                        />
+                      </div>
+                    )}
+                    {i < nodes.length - 1 && (
+                      <div className="sm:hidden flex items-center justify-center pt-7">
+                        <ArrowRight
+                          className="w-3 h-3 text-foreground/15"
+                          strokeWidth={2}
+                        />
+                      </div>
+                    )}
+                  </Fragment>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
@@ -1189,7 +1982,7 @@ export default function StudentMiddleSections() {
       <StudentsChallengeGrid />
       <StudentsCareerExplorer />
       <StudentsDashboardPreview />
-      <StudentsGrowthPipeline />
+      {/* <StudentsGrowthPipeline /> */}
     </>
   );
 }

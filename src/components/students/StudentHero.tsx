@@ -186,7 +186,6 @@ export default function StudentsHero() {
                 strengths.
               </p>
             </motion.div>
-
           </div>
         </div>
       </div>
