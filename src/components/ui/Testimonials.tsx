@@ -105,9 +105,9 @@ export default function Testimonials({
           <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-3">
             Loved by{" "}
             <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-              parents
+              parents. 
             </span>
-            . Built for students.
+            {" "}Built for students.
           </h2>
           <p className="text-base text-foreground/50 max-w-2xl mx-auto">
             {subtitle}

@@ -11,7 +11,7 @@ const navLinks = [
   { label: "How it Works", href: "/#how-it-works", matchPath: null },
   { label: "For Students", href: "/students", matchPath: "/students" },
   { label: "For Parents", href: "/parents", matchPath: "/parents" },
-  { label: "Universities", href: "/#universities", matchPath: null },
+  { label: "Universities", href: "/universities", matchPath: "/universities" },
   { label: "About Us", href: "/#about-us", matchPath: null },
 ]
 
