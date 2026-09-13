@@ -82,7 +82,8 @@ export default function ForParents() {
 
             <div className="pt-4 flex flex-wrap gap-4">
               <Link
-                href="/for-parents"
+                // href="/for-parents"
+                href="/parents"
                 className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-semibold text-sm transition-all shadow-xl shadow-indigo-600/20 group"
               >
                 Explore Parent Dashboard

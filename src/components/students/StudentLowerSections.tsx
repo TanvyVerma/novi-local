@@ -67,386 +67,6 @@ const capabilities = [
   "Answer your questions",
 ];
 
-// function StudentsAIMentor() {
-//   const [selectedQA, setSelectedQA] = useState<QAPair>(qaOptions[0]);
-//   const [typing, setTyping] = useState(false);
-
-//   const handleSelect = (item: QAPair) => {
-//     if (item === selectedQA) return;
-//     setTyping(true);
-//     window.setTimeout(() => {
-//       setSelectedQA(item);
-//       setTyping(false);
-//     }, 700);
-//   };
-
-//   const memoryFacts = [
-//     { label: "Grade", value: "11", color: "text-primary" },
-//     { label: "Track", value: "CS", color: "text-accent" },
-//     { label: "Profile", value: "78%", color: "text-emerald-500" },
-//     { label: "Target", value: "CMU, UCL", color: "text-rose-400" },
-//   ];
-
-//   const interests = ["Coding", "UX Design", "AI", "Entrepreneurship"];
-
-//   return (
-//     <section className="relative pt-12 pb-20 px-6 lg:px-12 overflow-hidden">
-//       {/* Ambient glow behind section */}
-//       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-2/3 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
-//       <div className="absolute bottom-0 right-[10%] w-80 h-80 bg-accent/5 rounded-full blur-3xl pointer-events-none" />
-
-//       <div className="max-w-7xl mx-auto relative z-10">
-//         <div className="grid lg:grid-cols-12 gap-8 items-start">
-//           {/* ==================== LEFT — 4 cols ==================== */}
-//           <div className="lg:col-span-4 space-y-6 lg:sticky lg:top-24">
-//             <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-widest">
-//               <Sparkles className="w-3.5 h-3.5" />
-//               AI Mentor
-//             </span>
-
-//             <h2 className="text-4xl sm:text-5xl font-bold text-foreground leading-tight">
-//               Have questions?
-//               <br />
-//               <span className="text-primary">Novi has context.</span>
-//             </h2>
-
-//             <p className="text-base text-foreground/70 leading-relaxed">
-//               Ask Novi anything — from career advice to university options. She
-//               remembers your journey and gives personalized answers.
-//             </p>
-
-//             <div className="flex flex-wrap gap-2">
-//               {capabilities.slice(0, 4).map((cap) => (
-//                 <span
-//                   key={cap}
-//                   className="text-[11px] px-3 py-1.5 rounded-full bg-foreground/[0.04] border border-foreground/10 text-foreground/70 font-medium"
-//                 >
-//                   {cap}
-//                 </span>
-//               ))}
-//               <span className="text-[11px] px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary font-bold">
-//                 +2 more
-//               </span>
-//             </div>
-
-//             <button className="btn-primary group">
-//               <MessageSquare className="w-4 h-4" />
-//               Start chatting with Novi
-//               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-//             </button>
-
-//             {/* Trust hint */}
-//             <div className="flex items-center gap-2 text-xs text-foreground/50 pt-2">
-//               <div className="flex -space-x-1.5">
-//                 <div className="w-5 h-5 rounded-full bg-primary/30 border border-background" />
-//                 <div className="w-5 h-5 rounded-full bg-accent/30 border border-background" />
-//                 <div className="w-5 h-5 rounded-full bg-rose-500/30 border border-background" />
-//               </div>
-//               <span>10,000+ students ask Novi every day</span>
-//             </div>
-//           </div>
-
-//           {/* ==================== CENTER — 5 cols — Chat ==================== */}
-//           <div className="lg:col-span-5">
-//             <div className="relative">
-//               {/* Outer glow */}
-//               <div className="absolute -inset-3 bg-gradient-to-br from-primary/15 via-transparent to-accent/15 rounded-[32px] blur-2xl pointer-events-none" />
-
-//               {/* Chat container — no top gradient bar, glassy background */}
-//               <div className="relative rounded-3xl border border-foreground/10 bg-background/40 backdrop-blur-xl shadow-2xl overflow-hidden">
-//                 {/* ---- Chat header ---- */}
-//                 <div className="flex items-center gap-3 px-5 py-4 border-b border-foreground/10">
-//                   <div className="relative shrink-0">
-//                     <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-accent text-white flex items-center justify-center shadow-lg">
-//                       <Bot className="w-5 h-5" />
-//                     </div>
-//                     <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-500 border-2 border-background">
-//                       <span className="absolute inset-0 rounded-full bg-emerald-500 animate-ping opacity-60" />
-//                     </span>
-//                   </div>
-//                   <div className="flex-1 min-w-0">
-//                     <p className="font-bold text-sm text-foreground">Novi</p>
-//                     <p className="text-[10px] text-emerald-500 font-semibold flex items-center gap-1">
-//                       Online
-//                       <span className="text-foreground/40">·</span>
-//                       <span className="text-foreground/50">
-//                         Remembers Riya&apos;s journey
-//                       </span>
-//                     </p>
-//                   </div>
-//                   <div className="hidden sm:flex items-center gap-1 px-2 py-1 rounded-full bg-primary/10 border border-primary/20">
-//                     <Sparkles className="w-3 h-3 text-primary" />
-//                     <span className="text-[9px] font-bold text-primary uppercase tracking-wider">
-//                       AI
-//                     </span>
-//                   </div>
-//                 </div>
-
-//                 {/* ---- Messages area ---- */}
-//                 <div className="p-5 space-y-4 min-h-[280px] max-h-[340px] overflow-hidden">
-//                   {/* Student bubble — cyan border, transparent bg, curved */}
-//                   <div className="flex items-start gap-2.5 justify-end">
-//                     <div className="p-3.5 rounded-2xl rounded-tr-none bg-transparent border-2 border-cyan-400/60 text-foreground/85 text-sm leading-relaxed max-w-[85%]">
-//                       {selectedQA.question}
-//                     </div>
-//                     <div className="relative w-8 h-8 rounded-full overflow-hidden border-2 border-cyan-400/40 shrink-0">
-//                       <Image
-//                         src="/riya-avatar.jpg"
-//                         alt="Riya"
-//                         fill
-//                         sizes="32px"
-//                         className="object-cover"
-//                       />
-//                     </div>
-//                   </div>
-
-//                   {/* Novi response — purple border, transparent bg, curved */}
-//                   <AnimatePresence mode="wait">
-//                     {typing ? (
-//                       <motion.div
-//                         key="typing"
-//                         initial={{ opacity: 0, y: 8 }}
-//                         animate={{ opacity: 1, y: 0 }}
-//                         exit={{ opacity: 0 }}
-//                         transition={{ duration: 0.2 }}
-//                         className="flex items-start gap-2.5"
-//                       >
-//                         <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent text-white flex items-center justify-center font-bold text-xs shadow-md shrink-0">
-//                           N
-//                         </div>
-//                         <div className="px-4 py-3.5 rounded-2xl rounded-tl-none bg-transparent border-2 border-purple-400/60 flex items-center gap-1.5">
-//                           <span className="w-2 h-2 rounded-full bg-primary animate-bounce" />
-//                           <span
-//                             className="w-2 h-2 rounded-full bg-primary animate-bounce"
-//                             style={{ animationDelay: "0.15s" }}
-//                           />
-//                           <span
-//                             className="w-2 h-2 rounded-full bg-primary animate-bounce"
-//                             style={{ animationDelay: "0.3s" }}
-//                           />
-//                         </div>
-//                       </motion.div>
-//                     ) : (
-//                       <motion.div
-//                         key={selectedQA.response}
-//                         initial={{ opacity: 0, y: 8 }}
-//                         animate={{ opacity: 1, y: 0 }}
-//                         exit={{ opacity: 0, y: -8 }}
-//                         transition={{ duration: 0.25 }}
-//                         className="flex items-start gap-2.5"
-//                       >
-//                         <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent text-white flex items-center justify-center font-bold text-xs shadow-md shrink-0">
-//                           N
-//                         </div>
-//                         <div className="p-3.5 rounded-2xl rounded-tl-none bg-transparent border-2 border-purple-400/60 text-foreground/85 text-sm leading-relaxed max-w-[85%]">
-//                           {selectedQA.response}
-//                         </div>
-//                       </motion.div>
-//                     )}
-//                   </AnimatePresence>
-//                 </div>
-
-//                 {/* ---- Suggested responses ---- */}
-//                 <div className="px-5 pb-3">
-//                   <p className="text-[10px] font-bold text-foreground/40 uppercase tracking-wider mb-2">
-//                     Suggested
-//                   </p>
-//                   <div className="flex flex-wrap gap-1.5">
-//                     {qaOptions.slice(1).map((item) => {
-//                       const isActive =
-//                         selectedQA.question === item.question && !typing;
-//                       return (
-//                         <button
-//                           key={item.question}
-//                           onClick={() => handleSelect(item)}
-//                           disabled={typing}
-//                           className={`text-[11px] px-3 py-1.5 rounded-full border transition-all font-medium disabled:opacity-50 disabled:cursor-wait ${
-//                             isActive
-//                               ? "bg-primary text-white border-primary shadow-md shadow-primary/25"
-//                               : "bg-transparent border-blue-400/40 text-foreground/70 hover:bg-primary/10 hover:border-primary/50 hover:text-primary"
-//                           }`}
-//                         >
-//                           {item.question}
-//                         </button>
-//                       );
-//                     })}
-//                   </div>
-//                 </div>
-
-//                 {/* ---- Input bar ---- */}
-//                 <div className="p-4 border-t border-foreground/10 bg-foreground/[0.02]">
-//                   <div className="flex items-center gap-2 rounded-2xl bg-transparent border-2 border-blue-400/40 focus-within:border-primary/60 focus-within:ring-2 focus-within:ring-primary/10 px-3.5 py-2.5 transition-all">
-//                     <input
-//                       type="text"
-//                       placeholder="Ask Novi anything..."
-//                       className="flex-1 bg-transparent text-sm outline-none placeholder:text-foreground/40 text-foreground"
-//                     />
-//                     <button
-//                       aria-label="Send message"
-//                       className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary to-accent text-white flex items-center justify-center hover:opacity-90 transition-opacity shrink-0 shadow-md shadow-primary/20"
-//                     >
-//                       <ArrowRight className="w-4 h-4" />
-//                     </button>
-//                   </div>
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-//         {/* ==================== RIGHT — 3 cols — Memory ==================== */}
-//         <div className="lg:col-span-3 space-y-4 lg:sticky lg:top-24">
-//           {/* ===== What Novi knows card ===== */}
-//           <div className="relative rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/[0.06] via-background/50 to-accent/[0.04] p-5 overflow-hidden">
-//             {/* corner glow */}
-//             <div className="absolute -top-12 -right-12 w-32 h-32 bg-primary/15 rounded-full blur-3xl pointer-events-none" />
-                        
-//             {/* Header */}
-//             <div className="relative flex items-center justify-between mb-4">
-//               <div className="flex items-center gap-2">
-//                 <div className="relative">
-//                   <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg shadow-primary/30">
-//                     <Sparkles className="w-4 h-4 text-white" />
-//                   </div>
-//                   <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-emerald-500 border-2 border-background animate-pulse" />
-//                 </div>
-//                 <div>
-//                   <h4 className="text-sm font-bold text-foreground leading-tight">
-//                     What Novi knows
-//                   </h4>
-//                   <p className="text-[9px] uppercase tracking-widest text-foreground/40 font-semibold">
-//                     About you
-//                   </p>
-//                 </div>
-//               </div>
-//               <span className="text-[9px] font-bold text-primary/70 uppercase tracking-wider px-2 py-0.5 rounded-full bg-primary/10 border border-primary/20">
-//                 Live
-//               </span>
-//             </div>
-                        
-//             {/* Fact tiles — 2x2 with icons */}
-//             <div className="relative grid grid-cols-2 gap-2.5 mb-4">
-//               {memoryFacts.map((fact) => (
-//                 <div
-//                   key={fact.label}
-//                   className="group relative rounded-2xl bg-background/60 border border-foreground/10 p-3 overflow-hidden hover:border-foreground/25 transition-colors"
-//                 >
-//                   <div className="absolute -top-6 -right-6 w-14 h-14 rounded-full blur-2xl opacity-30 bg-current pointer-events-none" />
-//                   <p
-//                     className={`relative text-lg font-black ${fact.color} leading-none`}
-//                   >
-//                     {fact.value}
-//                   </p>
-//                   <p className="relative text-[9px] uppercase tracking-[0.14em] text-foreground/50 mt-1.5 font-semibold">
-//                     {fact.label}
-//                   </p>
-//                 </div>
-//               ))}
-//             </div>
-            
-//             {/* Interests */}
-//             <div className="relative mb-4">
-//               <div className="flex items-center gap-2 mb-2.5">
-//                 <span className="w-3 h-3 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center shrink-0">
-//                   <span className="w-1 h-1 rounded-full bg-white" />
-//                 </span>
-//                 <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-foreground/50">
-//                   Interests
-//                 </p>
-//               </div>
-//               <div className="flex flex-wrap gap-1.5">
-//                 {interests.map((tag, i) => {
-//                   const colors = [
-//                     "bg-purple-500/15 text-purple-400 border-purple-500/30",
-//                     "bg-cyan-500/15 text-cyan-400 border-cyan-500/30",
-//                     "bg-emerald-500/15 text-emerald-400 border-emerald-500/30",
-//                     "bg-rose-500/15 text-rose-400 border-rose-500/30",
-//                   ];
-//                   return (
-//                     <span
-//                       key={tag}
-//                       className={`text-[10px] px-2.5 py-1 rounded-full border font-semibold cursor-default hover:scale-105 transition-transform ${
-//                         colors[i % colors.length]
-//                       }`}
-//                     >
-//                       {tag}
-//                     </span>
-//                   );
-//                 })}
-//               </div>
-//             </div>
-            
-//             {/* Footer strip */}
-//             <div className="relative pt-3 border-t border-foreground/10 flex items-center justify-between">
-//               <div className="flex items-center gap-2 text-[11px] text-foreground/70">
-//                 <div className="relative">
-//                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
-//                   <span className="absolute inset-0 rounded-full bg-emerald-500/40 blur-sm -z-10" />
-//                 </div>
-//                 <span className="font-medium">Journey remembered</span>
-//               </div>
-//               <span className="text-[9px] font-bold text-emerald-500 uppercase tracking-wider">
-//                 Synced
-//               </span>
-//             </div>
-//           </div>
-            
-//           {/* ===== Capabilities card — compact 2-col grid ===== */}
-//           <div className="relative rounded-3xl border border-foreground/10 bg-surface/50 dark:bg-surface-elevated/30 p-5 overflow-hidden">
-//             {/* subtle top accent line */}
-//             <div className="absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
-            
-//             <div className="flex items-center gap-2 mb-4">
-//               <div className="w-7 h-7 rounded-lg bg-accent/15 flex items-center justify-center">
-//                 <MessageSquare className="w-3.5 h-3.5 text-accent" />
-//               </div>
-//               <div className="flex-1 min-w-0">
-//                 <h4 className="text-xs font-bold uppercase tracking-wider text-foreground/70 leading-tight">
-//                   Novi can help with
-//                 </h4>
-//                 <p className="text-[9px] uppercase tracking-widest text-foreground/35 font-semibold">
-//                   6 skills
-//                 </p>
-//               </div>
-//             </div>
-            
-//             {/* 2-col grid of compact chips */}
-//             <div className="grid grid-cols-2 gap-2">
-//               {capabilities.slice(0, 6).map((cap, i) => {
-//                 const palette = [
-//                   { bg: "bg-purple-500/10", text: "text-purple-400", border: "border-purple-500/20", hover: "hover:border-purple-500/50" },
-//                   { bg: "bg-cyan-500/10", text: "text-cyan-400", border: "border-cyan-500/20", hover: "hover:border-cyan-500/50" },
-//                   { bg: "bg-emerald-500/10", text: "text-emerald-400", border: "border-emerald-500/20", hover: "hover:border-emerald-500/50" },
-//                   { bg: "bg-amber-500/10", text: "text-amber-400", border: "border-amber-500/20", hover: "hover:border-amber-500/50" },
-//                   { bg: "bg-rose-500/10", text: "text-rose-400", border: "border-rose-500/20", hover: "hover:border-rose-500/50" },
-//                   { bg: "bg-indigo-500/10", text: "text-indigo-400", border: "border-indigo-500/20", hover: "hover:border-indigo-500/50" },
-//                 ];
-//                 const c = palette[i % palette.length];
-//                 return (
-//                   <div
-//                     key={cap}
-//                     className={`group flex items-center gap-2 p-2 rounded-xl bg-background/40 border ${c.border} ${c.hover} transition-all cursor-default`}
-//                   >
-//                     <div
-//                       className={`w-5 h-5 rounded-md ${c.bg} flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform`}
-//                     >
-//                       <CheckCircle2 className={`w-2.5 h-2.5 ${c.text}`} />
-//                     </div>
-//                     <span className="text-[10px] text-foreground/75 group-hover:text-foreground transition-colors leading-tight">
-//                       {cap}
-//                     </span>
-//                   </div>
-//                 );
-//               })}
-//             </div>
-//           </div>
-//         </div>
-//         </div>
-//       </div>
-//     </section>
-//   );
-// }
-
-
-
 function StudentsAIMentor() {
   const [selectedQA, setSelectedQA] = useState<QAPair>(qaOptions[0]);
   const [typing, setTyping] = useState(false);
@@ -932,9 +552,7 @@ function StudentsJourney() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[300px] bg-primary/[0.04] rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
-        {/* ==================== SPLIT ROW — Icons LEFT, Text RIGHT ==================== */}
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-10 items-center">
-          {/* LEFT — Icons pipeline (8 cols) */}
           <div className="lg:col-span-8 order-2 lg:order-1 relative">
             <div className="relative flex items-start justify-between gap-1">
               {stages.map((stage, i) => {
@@ -966,7 +584,7 @@ function StudentsJourney() {
                             transition={{ duration: 0.3 }}
                           />
 
-                          <div
+                          {/* <div
                             className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center bg-background transition-all duration-300"
                             style={{
                               border: `2px solid ${
@@ -977,6 +595,17 @@ function StudentsJourney() {
                               boxShadow: isActive
                                 ? `0 0 24px ${stage.color}80, inset 0 0 12px ${stage.color}30`
                                 : "0 4px 12px rgba(0,0,0,0.3)",
+                              transform: isActive ? "scale(1.12)" : undefined,
+                            }}
+                          > */}
+
+                          <div
+                            className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center bg-background transition-all                          duration-300"
+                            style={{
+                              border: `2px solid ${isActive ? stage.color : `${stage.color}50`}`,
+                              boxShadow: isActive
+                                ? `0 0 24px ${stage.color}80, inset 0 0 12px ${stage.color}30`
+                                : "0 2px 8px rgba(0,0,0,0.15)",
                               transform: isActive ? "scale(1.12)" : undefined,
                             }}
                           >
@@ -1004,12 +633,18 @@ function StudentsJourney() {
 
                         {/* Label */}
                         <div className="text-center px-0.5 mt-1">
-                          <p
+                          {/* <p
                             className="text-[11px] sm:text-[12px] font-bold transition-colors duration-300 leading-tight"
                             style={{
                               color: isActive
                                 ? stage.color
                                 : "rgba(255,255,255,0.75)",
+                            }}
+                          > */}
+                          <p
+                            className="text-[11px] sm:text-[12px] font-bold transition-colors duration-300 leading-tight"
+                            style={{
+                              color: isActive ? stage.color : "text-foreground/75",
                             }}
                           >
                             {stage.grade}
@@ -1213,10 +848,6 @@ function StudentsJourney() {
     </section>
   );
 }
-
-/* ============================================================
-   DEFAULT EXPORT
-   ============================================================ */
 
 export default function StudentLowerSections() {
   return (
